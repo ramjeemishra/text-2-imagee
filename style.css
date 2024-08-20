@@ -62,3 +62,35 @@ img {
 #downloadBtn:hover {
     background-color: #007bb5;
 }
+.made-with-love{
+    text-align: center;
+}
+.made-with-love a{
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+}
+.made-with-love a:after {    
+    background: none repeat scroll 0 0 transparent;
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 1.5px;
+    left: 50%;
+    position: absolute;
+    background: #B5F44A;
+    transition: width 0.2s ease 0s, left 0.2s ease 0s;
+    width: 0;
+  }
+  .made-with-love a:hover:after { 
+    width: 100%; 
+    left: 0;
+  }
+  .made-with-love a {
+    color: #000000;
+  /*   text-transform: uppercase; */
+    text-decoration: none;
+    letter-spacing: 0.15em;
+    display: inline-block;
+    padding: 4px;
+    position: relative;
+  }

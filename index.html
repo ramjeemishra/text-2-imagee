@@ -4,14 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text to Image</title>
-    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Text 2 Image</h1>
     <label for="input">Create an image from text prompt:</label>
     <input type="text" id="input">
     <button id="btn">Generate</button>
+    <p id="status" class="hidden">Your image is being generated...</p>
     <img id="image" width="50%" height="50%" src="" alt="">
+    <button id="downloadBtn" class="hidden">Download Image</button>
     <script src="script.js"></script>
 </body>
+
 </html>

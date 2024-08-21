@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,19 +8,61 @@
     <link rel="shortcut icon" href="imagegenerator_logo.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+    <div class="container">
+
+        <h1>Text 2 Image</h1>
+        <label for="input">"When you describe your ex, but the app generates a pizza instead 😅"</label>
+        <input type="text" id="user-input" placeholder="Dream it, write it, see it...">
+        <button id="send-buttonn">Generate</button>
+        <p id="status" class="hidden">Your image is being generated...</p>
+        <img id="image" width="50%" height="50%" src="" alt="">
+        <a id="downloadBtn" href="#" download="generated-image.png" class="hidden">Download Image</a>
+
+
+
+
+        <div class="pre-generated-images">
+            <h2>Pre-Generated Images</h2>
+            <div class="image-gallery">
+                <img src="pre-generated-img/anime_boy.jpg" alt="Pre-generated Image 1">
+                <img src="pre-generated-img/anya.jpg" alt="Pre-generated Image 2">
+                <img src="pre-generated-img/Lord_ram.jpg" alt="Pre-generated Image 3">
+                <img src="pre-generated-img/german_tony_stark.jpg" alt="Pre-generated Image 3">
+                <img src="pre-generated-img/taylor.jpg" alt="Pre-generated Image 3">
+                <img src="pre-generated-img/man_working.jpeg" alt="Pre-generated Image 3">
+                <img src="pre-generated-img/taylor2.png" alt="Pre-generated Image 3">
+                <img src="pre-generated-img/cute_puppy.png" alt="Pre-generated Image 3">
+
+                <!-- Add more images as needed -->
+            </div>
+        </div>
+    </div>
     <div class="made-with-love">
         Made with <i id="heart">💖</i>&amp;<i id="coffee">☕</i> by
         <a href="https://ramjeemishra.github.io/Ramjee_Mishra/">Developer Ram</a>
-      </div>
-    <h1>Text 2 Image</h1>
-    <label for="input">Create an image from text prompt:</label>
-    <input type="text" id="user-input" placeholder="enter your thought here...">
-    <button id="send-buttonn">Generate</button>
-    <p id="status" class="hidden">Your image is being generated...</p>
-    <img id="image" width="50%" height="50%" src="" alt="">
-    <a id="downloadBtn" href="#" download="generated-image.png" class="hidden">Download Image</a>
+    </div>
     <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const images = document.querySelectorAll('.image-gallery img');
+
+            images.forEach(img => {
+                img.addEventListener('click', function () {
+                    // Toggle the 'enlarged' class
+                    if (this.classList.contains('enlarged')) {
+                        this.classList.remove('enlarged');
+                    } else {
+                        // Remove 'enlarged' class from any other image
+                        images.forEach(image => image.classList.remove('enlarged'));
+                        this.classList.add('enlarged');
+                    }
+                });
+            });
+        });
+
+    </script>
 </body>
 
 </html>

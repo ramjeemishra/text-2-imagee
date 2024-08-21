@@ -151,6 +151,7 @@ img:hover {
 }
 
 .made-with-love {
+    width: max-content;
     position: absolute;
     /* bottom: 20px; */
     left: 50%;

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image generator</title>
+    <link rel="shortcut icon" href="imagegenerator_logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .download-history {
+    margin-top: 20px;
+}
+
+#historyList {
+    list-style-type: none;
+    padding: 0;
+}
+
+#historyList li {
+    margin-bottom: 10px;
+}
+
+#historyList img {
+    max-width: 100px;
+    max-height: 100px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+.fullscreen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.hidden {
+    display: none;
+}
+
+#fullscreenHistoryContent {
+    text-align: center;
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+}
+
+#fullscreenHistory img {
+    max-width: 200px;
+    max-height: 200px;
+    margin: 10px;
+}
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>Text 2 Image</h1>
+        <label for="input">"When you describe your ex, but the app generates a pizza instead 😅"</label>
+        <input type="text" id="user-input" placeholder="Dream it, write it, see it...">
+        <button id="send-buttonn">Generate</button>
+        <p id="status" class="hidden">Your image is being generated...</p>
+        <img id="image" width="50%" height="50%" src="" alt="">
+        <a id="downloadBtn" href="#" download="generated-image.png" class="hidden">Download Image</a>
+        
+
+
+
+        <div class="pre-generated-images">
+            <h2>Pre-Generated Images</h2>
+            <div class="image-gallery">
+                <img src="pre-generated-img/anime_boy.jpg" alt="Pre-generated Image 1">
+                <img src="pre-generated-img/anya.jpg" alt="Pre-generated Image 2">                
+                <img src="pre-generated-img/3dlogo.jpg" alt="Pre-generated Image 3">
+                <img src="pre-generated-img/Lord_ram.jpg" alt="Pre-generated Image 3">
+                <img src="pre-generated-img/german_tony_stark.jpg" alt="Pre-generated Image 3">
+                <img src="pre-generated-img/taylor.jpg" alt="Pre-generated Image 3">
+                <img src="pre-generated-img/messi.png" alt="Pre-generated Image 3">
+                <img src="pre-generated-img/modi.png" alt="Pre-generated Image 3">
+                <img src="pre-generated-img/taylor2.png" alt="Pre-generated Image 3">
+                <img src="pre-generated-img/cute_puppy.png" alt="Pre-generated Image 3">
+                <img src="pre-generated-img/man_working.jpeg" alt="Pre-generated Image 3">
+                <img src="pre-generated-img/tailor_iron.jpg" alt="Pre-generated Image 3">
+            </div>
+        </div>
+    </div>
+    <div class="made-with-love">
+        Made with <i id="heart">💖</i>&amp;<i id="coffee">☕</i> by
+        <a href="https://ramjeemishra.github.io/Ramjee_Mishra/">Developer Ram</a>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const images = document.querySelectorAll('.image-gallery img');
+
+            images.forEach(img => {
+                img.addEventListener('click', function () {
+                    if (this.classList.contains('enlarged')) {
+                        this.classList.remove('enlarged');
+                    } else {
+                        images.forEach(image => image.classList.remove('enlarged'));
+                        this.classList.add('enlarged');
+                    }
+                });
+            });
+        });
+
+    </script>
+</body>
+
+</html>

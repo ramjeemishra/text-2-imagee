@@ -1,69 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image generator</title>
-    <link rel="shortcut icon" href="imagegenerator_logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login and Sign Up</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: #121212;
+    }
+
+    .container {
+      background: #1e1e1e;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .container h2 {
+      color: #fff;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+    }
+
+    .input-group {
+      margin-bottom: 1rem;
+    }
+
+    .input-group label {
+      display: block;
+      color: #ccc;
+      margin-bottom: 0.5rem;
+      text-align: left;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 4px;
+      background: #2e2e2e;
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    .input-group input::placeholder {
+      color: #888;
+    }
+
+    .btn-submit {
+      padding: 0.8rem 2rem;
+      background: #4caf50;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      transition: background 0.3s;
+    }
+
+    .btn-submit:hover {
+      background: #45a045;
+    }
+
+    .status-message {
+      margin-top: 1rem;
+      font-size: 1rem;
+      color: #fff;
+    }
+
+    .error {
+      color: red;
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+
+    .main {
+      display: none; /* Initially hidden */
+      color: #fff;
+      text-align: center;
+      padding: 2rem;
+      background: #1e1e1e;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+  </style>
 </head>
-
 <body>
-    <div class="container">
 
-        <h1>Text 2 Image</h1>
-        <label for="input">"When you describe your ex, but the app generates a pizza instead 😅"</label>
-        <input type="text" id="user-input" placeholder="Dream it, write it, see it...">
-        <button id="send-buttonn">Generate</button>
-        <p id="status" class="hidden">Your image is being generated...</p>
-        <img id="image" width="50%" height="50%" src="" alt="">
-        <a id="downloadBtn" href="#" download="generated-image.png" class="hidden">Download Image</a>
+  <div class="container">
+    <h2 id="formTitle">Sign Up</h2>
+    <form id="authForm">
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username" required>
+      </div>
+      <div class="input-group">
+        <label for="email" id="preemail">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+      </div>
 
+      <p class="error" id="error"></p>
+      <p class="status-message" id="statusMessage"></p>
+      
+      <button type="submit" class="btn-submit">Proceed</button>
+      <button type="button" class="btn-submit" id="loginBtn">Login</button>
+    </form>
+  </div>
 
+  <div class="main">
+    <h1>Hello World</h1>
+  </div>
 
+  <!-- Firebase SDKs -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCsYaFiHjYWPB1V-rAt9DDMPIVezDInRvA",
+      authDomain: "loginpagetexttoimg.firebaseapp.com",
+      databaseURL: "https://loginpagetexttoimg-default-rtdb.firebaseio.com",
+      projectId: "loginpagetexttoimg",
+      storageBucket: "loginpagetexttoimg.appspot.com",
+      messagingSenderId: "515159688336",
+      appId: "1:515159688336:web:26c51a4be040cf4970c415",
+      measurementId: "G-WLBNFZZ77W"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const auth = getAuth(app);
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is logged in, redirect to main.html
+        window.location.href = 'main.html';
+      }
+    });
+    // Function to get user's location
+    function getUserLocation() {
+      return new Promise((resolve, reject) => {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              resolve({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+              });
+            },
+            (error) => {
+              reject("Unable to fetch location: " + error.message);
+            }
+          );
+        } else {
+          reject("Geolocation is not supported by this browser.");
+        }
+      });
+    }
+  
+    // Function to update status message
+    function updateStatusMessage(message) {
+      const statusMessageElement = document.getElementById('statusMessage');
+      statusMessageElement.textContent = message;
+    }
+  
+    // Handle form submission for sign up and login
+    // Handle form submission for sign up and login
+document.getElementById('authForm').addEventListener('submit', function(e) {
+  e.preventDefault();
 
-        <div class="pre-generated-images">
-            <h2>Pre-Generated Images</h2>
-            <div class="image-gallery">
-                <img src="pre-generated-img/anime_boy.jpg" alt="Pre-generated Image 1">
-                <img src="pre-generated-img/anya.jpg" alt="Pre-generated Image 2">
-                <img src="pre-generated-img/Lord_ram.jpg" alt="Pre-generated Image 3">
-                <img src="pre-generated-img/german_tony_stark.jpg" alt="Pre-generated Image 3">
-                <img src="pre-generated-img/taylor.jpg" alt="Pre-generated Image 3">
-                <img src="pre-generated-img/messi.png" alt="Pre-generated Image 3">
-                <img src="pre-generated-img/modi.png" alt="Pre-generated Image 3">
-                <img src="pre-generated-img/taylor2.png" alt="Pre-generated Image 3">
-                <img src="pre-generated-img/cute_puppy.png" alt="Pre-generated Image 3">
-                <img src="pre-generated-img/man_working.jpeg" alt="Pre-generated Image 3">
-                <img src="pre-generated-img/tailor_iron.jpg" alt="Pre-generated Image 3">
-            </div>
-        </div>
-    </div>
-    <div class="made-with-love">
-        Made with <i id="heart">💖</i>&amp;<i id="coffee">☕</i> by
-        <a href="https://ramjeemishra.github.io/Ramjee_Mishra/">Developer Ram</a>
-    </div>
-    <script src="script.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const images = document.querySelectorAll('.image-gallery img');
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  const email = document.getElementById('email').value;
 
-            images.forEach(img => {
-                img.addEventListener('click', function () {
-                    // Toggle the 'enlarged' class
-                    if (this.classList.contains('enlarged')) {
-                        this.classList.remove('enlarged');
-                    } else {
-                        // Remove 'enlarged' class from any other image
-                        images.forEach(image => image.classList.remove('enlarged'));
-                        this.classList.add('enlarged');
-                    }
-                });
+  // Clear previous error message
+  document.getElementById('error').textContent = '';
+
+  if (document.getElementById('formTitle').innerText === 'Sign Up') {
+    // Sign Up
+    updateStatusMessage('Creating account...');
+    getUserLocation()
+      .then((location) => {
+        const { latitude, longitude } = location;
+
+        createUserWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            const userId = userCredential.user.uid;
+            set(ref(db, 'users/' + userId), {
+              username: username,
+              email: email,
+              location: {
+                latitude: latitude,
+                longitude: longitude
+              }
+            }).then(() => {
+              updateStatusMessage('');
+              resetForm();
+            }).catch((error) => {
+              console.error("Error storing user information: ", error);
+              document.getElementById('error').textContent = "Error storing user information.";
+              updateStatusMessage('');
             });
+          })
+          .catch((error) => {
+            console.error("Error creating user: ", error);
+            document.getElementById('error').textContent = error.message;
+            updateStatusMessage('');
+          });
+      })
+      .catch((error) => {
+        console.error(error);
+        document.getElementById('error').textContent = error;
+        updateStatusMessage('');
+      });
+  } else {
+    updateStatusMessage('Checking your username and password...');
+get(child(ref(db), 'users/')).then((snapshot) => {
+  let userFound = false;
+  snapshot.forEach((childSnapshot) => {
+    const userData = childSnapshot.val();
+    const userId = childSnapshot.key;
+    if (userData.username === username) {
+      userFound = true;
+      const email = userData.email; // Retrieve email from database
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          updateStatusMessage('');
+          localStorage.setItem('loggedIn', 'true');
+
+          // Redirect to another HTML file on successful login
+          window.location.href = 'main.html'; // Change 'dashboard.html' to your desired file
+        })
+        .catch((error) => {
+          console.error("Error signing in: ", error);
+          document.getElementById('error').textContent = error.message;
+          updateStatusMessage('');
         });
+    }
+  });
+  if (!userFound) {
+    document.getElementById('error').textContent = "Username not found.";
+    updateStatusMessage('');
+  }
+}).catch((error) => {
+  console.error("Error getting user data: ", error);
+  document.getElementById('error').textContent = "Error getting user data.";
+  updateStatusMessage('');
+});
+  }
+});
 
-    </script>
+// Switch to Login when login button is clicked
+document.getElementById('loginBtn').addEventListener('click', function() {
+  document.getElementById('formTitle').innerText = 'Login';
+  document.getElementById('authForm').reset();
+  document.getElementById('error').textContent = '';
+  
+  // Hide email field for login
+  document.getElementById('email').style.display = "none"; 
+  document.getElementById('preemail').style.display = "none"; // Hide email label for login
+  
+  // Remove required attribute for email when hidden
+  document.getElementById('email').required = false;
+  
+  document.getElementById('statusMessage').textContent = ''; // Clear status message
+});
+
+// Function to reset form for new sign up
+function resetForm() {
+  document.getElementById('formTitle').innerText = 'Sign Up';
+  document.getElementById('authForm').reset();
+  document.getElementById('error').textContent = '';
+  
+  // Show email field for sign up
+  document.getElementById('email').style.display = "block"; 
+  document.getElementById('preemail').style.display = "block"; // Show email label for sign up
+  
+  // Add required attribute back for email
+  document.getElementById('email').required = true;
+}
+
+
+  </script>
+  
 </body>
-
 </html>

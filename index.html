@@ -115,11 +115,13 @@
         <label for="password">Password</label>
         <input type="password" id="password" name="password" placeholder="Enter your password" required>
       </div>
-
+      <div style="color: red;" id="permissionn">
+        <input type="checkbox" name="permission" id="permission">Allow your location for better image generation
+      </div>
       <p class="error" id="error"></p>
       <p class="status-message" id="statusMessage"></p>
-      <div id="btnn">
-        <button type="submit" class="btn-submit">Proceed</button>
+      <div id="btnn" style="display: flex; gap: 4dvw;">
+        <button type="submit" class="btn-submit" id="done" style="display: none;">Proceed</button>
         <button type="button" class="btn-submit" id="loginBtn">Login</button>
         <button class="btn-submit" style="display: none;" id="signupp" onclick="location.reload();">Create account</button>
       </div>
@@ -282,6 +284,9 @@
       document.getElementById('btnn').style.display = "flex";
       document.getElementById('btnn').style.gap = "4dvw";
       document.getElementById('signupp').style.display = "block";
+      document.getElementById('permissionn').style.display = "none";
+      document.getElementById('done').style.display = "block";
+
 
 
 
@@ -306,6 +311,20 @@
     }
 
 
+
+    const checkbox = document.getElementById('permission');
+        const doneElement = document.getElementById('done');
+
+        // Add an event listener to the checkbox
+        checkbox.addEventListener('change', function() {
+            if (checkbox.checked) {
+                // Show the element if the checkbox is checked
+                doneElement.style.display = 'block';
+            } else {
+                // Hide the element if the checkbox is unchecked
+                doneElement.style.display = 'none';
+            }
+        });
 
   </script>
 

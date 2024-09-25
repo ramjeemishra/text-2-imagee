@@ -118,15 +118,14 @@
 
       <p class="error" id="error"></p>
       <p class="status-message" id="statusMessage"></p>
-
-      <button type="submit" class="btn-submit">Proceed</button>
-      <button type="button" class="btn-submit" id="loginBtn">Login</button>
+      <div id="btnn">
+        <button type="submit" class="btn-submit">Proceed</button>
+        <button type="button" class="btn-submit" id="loginBtn">Login</button>
+        <button class="btn-submit" style="display: none;" id="signupp" onclick="location.reload();">Create account</button>
+      </div>
     </form>
   </div>
 
-  <div class="main">
-    <h1>Hello World</h1>
-  </div>
 
   <!-- Firebase SDKs -->
   <script type="module">
@@ -278,7 +277,13 @@
 
       // Hide email field for login
       document.getElementById('email').style.display = "none";
-      document.getElementById('preemail').style.display = "none"; // Hide email label for login
+      document.getElementById('preemail').style.display = "none";
+      document.getElementById('loginBtn').style.display = "none";
+      document.getElementById('btnn').style.display = "flex";
+      document.getElementById('btnn').style.gap = "4dvw";
+      document.getElementById('signupp').style.display = "block";
+
+
 
       // Remove required attribute for email when hidden
       document.getElementById('email').required = false;
@@ -299,6 +304,7 @@
       // Add required attribute back for email
       document.getElementById('email').required = true;
     }
+
 
 
   </script>

@@ -4,330 +4,290 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login and Sign Up</title>
+  <title>Shayari Website</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <link rel="shortcut icon" href="shayarilogo.jpeg" type="image/x-icon">
+
+  <script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";import{getDatabase,ref,set,get,push,update,remove}from"https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";import{getAuth,signInWithEmailAndPassword}from"https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";const firebaseConfig={apiKey:"AIzaSyDPBjSD85dnh4RTj9UWy46TS1zHOFpaoG8",authDomain:"shayaridatabase.firebaseapp.com",projectId:"shayaridatabase",storageBucket:"shayaridatabase.appspot.com",messagingSenderId:"255324173170",appId:"1:255324173170:web:4f2e7653c3f0f1b9d8a3eb",measurementId:"G-BR9FC3D3F3"},app=initializeApp(firebaseConfig),database=getDatabase(app),auth=getAuth(app);function loadShayaris(){const n=document.getElementById("shayari-container");n.innerHTML="";var e=ref(database,"shayaris");get(e).then(e=>{if(e.exists()){const s=[];e.forEach(e=>{var t=e.val();t.id=e.key,s.push(t)});for(let e=s.length-1;0<=e;e--){var t=s[e],a=document.createElement("div");a.classList.add("bg-gray-800","p-4","rounded","mb-4"),a.innerHTML=`
+          <p class="text-sm text-gray-400">${t.username} - ${t.timestamp}</p>
+          <p style="white-space: pre-wrap;">${t.content}</p>
+          <button class="like-button" data-shayari-id="${t.id}">
+            <i class="fa-regular fa-heart"></i>
+          </button>
+          <span class="like-count" data-shayari-id="${t.id}">0</span>
+        `,n.appendChild(a),updateLikeCount(t.id)}document.querySelectorAll(".like-button").forEach(e=>{e.addEventListener("click",e=>{handleLikeToggle(e.currentTarget.getAttribute("data-shayari-id"))})}),n.scrollTo({top:0,behavior:"smooth"})}else console.log("No shayaris found")}).catch(e=>{console.error("Error loading shayaris:",e)})}function handleLikeToggle(a){if(userIsLoggedIn){const s=document.querySelector(`button[data-shayari-id="${a}"] i`),n=ref(database,"shayaris/"+a);get(n).then(e=>{var t;e.exists()&&(-1===(t=(e=e.val().likes||[]).indexOf(currentUserId))?(e.push(currentUserId),s.classList.remove("fa-regular"),s.classList.add("fa-solid")):(e.splice(t,1),s.classList.remove("fa-solid"),s.classList.add("fa-regular")),update(n,{likes:e}).then(()=>{updateLikeCount(a)}).catch(e=>{console.error("Error updating likes:",e)}))})}else alert("You need to log in to like a post.")}function updateLikeCount(t){var e=ref(database,"shayaris/"+t);get(e).then(e=>{e.exists()&&(e=e.val().likes||[],document.querySelector(`.like-count[data-shayari-id="${t}"]`).textContent=e.length)})}document.addEventListener("DOMContentLoaded",()=>{loadShayaris()});let userIsLoggedIn=!1,currentUserId="";function login(e,t){signInWithEmailAndPassword(auth,e,t).then(e=>{e=e.user,currentUserId=e.uid,userIsLoggedIn=!0,e=ref(database,"users/"+e.uid+"/username");get(e).then(e=>{e.exists()?(e=e.val(),document.getElementById("usernameDisplay").textContent=e,document.getElementById("loginButton").style.display="none",document.getElementById("non-main-shayari-container").style.display="block",document.getElementById("postbtn").style.display="block",document.getElementById("loginFormContainer").style.display="none",loadShayaris()):console.error("No username found for this user.")}).catch(e=>{console.error("Error fetching username:",e)})}).catch(e=>{console.error("Error signing in:",e),alert("Login failed: "+e.message)})}function likeShayari(t,a){const s=auth.currentUser;if(s){const n=ref(database,`users/${s.uid}/likes/`+t),r=ref(database,"shayaris/"+t);get(n).then(e=>{e.exists()?remove(n).then(()=>{get(r).then(e=>{e.exists()&&(e=(e.val().likes||[]).filter(e=>e!==s.uid),update(r,{likes:e}).then(()=>{a.innerHTML='<i class="fa-regular fa-heart"></i>',updateLikeCount(t)}))})}).catch(e=>{console.error("Error removing like:",e)}):set(n,!0).then(()=>{get(r).then(e=>{e=e.exists()&&e.val().likes||[];e.push(s.uid),update(r,{likes:e}).then(()=>{a.innerHTML='<i class="fa-solid fa-heart"></i>',updateLikeCount(t)})})}).catch(e=>{console.error("Error adding like:",e)})}).catch(e=>{console.error("Error checking user like status:",e)})}else alert("You must be logged in to like a shayari.")}function loadUsernames(){var e=ref(database,"users");get(e).then(e=>{if(e.exists()){const a=document.getElementById("userList");a.innerHTML="",e.forEach(e=>{const t=e.val().username;e=document.createElement("li");e.classList.add("text-lg","cursor-pointer","underline-animation"),e.textContent=t,e.addEventListener("click",()=>{filterShayarisByUsername(t),document.getElementById("userListModal").style.display="none"}),a.appendChild(e)})}else console.log("No users found")}).catch(e=>{console.error("Error loading users:",e)})}function filterShayarisByUsername(s){var e=ref(database,"shayaris");const n=document.getElementById("shayari-container");get(e).then(e=>{n.innerHTML="",e.exists()?(e.forEach(e=>{var t,a=e.val();a.username===s&&((t=document.createElement("div")).classList.add("bg-gray-800","p-4","rounded","mb-4"),t.innerHTML=`
+                <p class="text-sm text-gray-400">${a.username} - ${a.timestamp}</p>
+                <p style="white-space: pre-wrap;">${a.content}</p>
+                <button class="like-button" data-shayari-id="${e.key}">Like</button>
+                <span class="like-count" data-shayari-id="${e.key}">0</span>
+              `,n.appendChild(t),updateLikeCount(e.key))}),n.scrollTop=0):console.log("No shayaris found")}).catch(e=>{console.error("Error filtering shayaris:",e)})}document.addEventListener("DOMContentLoaded",()=>{document.getElementById("loginForm").addEventListener("submit",function(e){e.preventDefault(),login(document.getElementById("email").value,document.getElementById("password").value)}),document.getElementById("postShayariForm").addEventListener("submit",function(e){e.preventDefault();var t,a,s,e=document.getElementById("shayari").value;e?(t=document.getElementById("usernameDisplay").textContent,a={day:"2-digit",month:"2-digit",year:"numeric"},a=(new Date).toLocaleDateString("en-GB",a)+" "+(new Date).toLocaleTimeString(),s=ref(database,"shayaris"),s=push(s),set(s,{content:e,username:t,timestamp:a,likes:[]}).then(()=>{alert("Shayari posted successfully!"),document.getElementById("shayari").value="",loadShayaris()}).catch(e=>{console.error("Error posting shayari:",e)})):alert("Shayari content cannot be empty!")}),document.getElementById("shayari-container").addEventListener("click",function(e){e.target.classList.contains("like-button")&&likeShayari(e.target.getAttribute("data-shayari-id"))}),document.getElementById("viewUsersButton").addEventListener("click",()=>{loadUsernames(),document.getElementById("userListModal").style.display="flex"}),document.getElementById("closeUserList").addEventListener("click",()=>{document.getElementById("userListModal").style.display="none"}),loadShayaris()});const postBtn=document.getElementById("postbtn"),shayariSection=document.getElementById("shayari-section");postBtn.addEventListener("click",()=>{"none"===shayariSection.style.display||""===shayariSection.style.display?shayariSection.style.display="block":shayariSection.style.display="none"});</script>
+
   <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background: #121212;
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
-    .container {
-      background: #1e1e1e;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-      max-width: 400px;
-      width: 100%;
-      text-align: center;
+    .fade-in {
+      animation: fadeIn 0.8s ease-in-out;
     }
 
-    .container h2 {
+    .neon-btn {
+      background: linear-gradient(145deg, #3b4148, #20262d);
+      box-shadow: 0 0 15px rgba(59, 65, 72, 0.7), inset 0 0 15px rgba(50, 50, 50, 0.7);
+      transition: all 0.3s ease;
+      border-radius: 9999px;
+    }
+
+    .neon-btn:hover {
+      box-shadow: 0 0 25px #4ade80, 0 0 30px #4ade80;
+      transform: translateY(-3px);
+    }
+
+    .dark-card {
+      background: linear-gradient(145deg, #222831, #1a1f25);
+      box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.8), -4px -4px 12px rgba(50, 50, 50, 0.2);
+      border-radius: 20px;
+      padding: 1.5rem;
+      transition: transform 0.5s ease;
+    }
+
+    .dark-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.8), -4px -4px 15px rgba(50, 50, 50, 0.2);
+    }
+
+    .glow-text {
       color: #fff;
-      margin-bottom: 1.5rem;
-      font-size: 1.8rem;
+      text-shadow: 0 0 5px #4ade80, 0 0 10px #4ade80, 0 0 20px #4ade80;
     }
 
-    .input-group {
-      margin-bottom: 1rem;
-    }
-
-    .input-group label {
-      display: block;
-      color: #ccc;
-      margin-bottom: 0.5rem;
-      text-align: left;
-    }
-
-    .input-group input {
-      width: 100%;
+    .dark-input {
+      background-color: #1f2937;
+      border: 1px solid #3b4148;
       padding: 0.8rem;
-      border: none;
-      border-radius: 4px;
-      background: #2e2e2e;
-      color: #fff;
-      font-size: 1rem;
-    }
-
-    .input-group input::placeholder {
-      color: #888;
-    }
-
-    .btn-submit {
-      padding: 0.8rem 2rem;
-      background: #4caf50;
-      border: none;
-      border-radius: 4px;
-      color: white;
-      font-size: 1rem;
-      cursor: pointer;
-      margin-top: 1.5rem;
-      transition: background 0.3s;
-    }
-
-    .btn-submit:hover {
-      background: #45a045;
-    }
-
-    .status-message {
-      margin-top: 1rem;
-      font-size: 1rem;
-      color: #fff;
-    }
-
-    .error {
-      color: red;
-      font-size: 1rem;
-      margin-top: 1rem;
-    }
-
-    .main {
-      display: none;
-      /* Initially hidden */
-      color: #fff;
-      text-align: center;
-      padding: 2rem;
-      background: #1e1e1e;
       border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .dark-input:focus {
+      border-color: #4ade80;
+    }
+
+    .bg-animated {
+      background: linear-gradient(120deg, #20262d, #1f2937, #111827);
+      background-size: 600% 600%;
+      animation: gradientShift 10s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .underline-animation {
+      position: relative;
+      display: inline-block;
+      color: #4ade80;
+      text-decoration: none;
+    }
+
+    .underline-animation::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: #4ade80;
+      visibility: hidden;
+      transform: scaleX(0);
+      transition: all 0.3s ease-in-out;
+    }
+
+    .underline-animation:hover::after {
+      visibility: visible;
+      transform: scaleX(1);
+    }
+
+    .dark-textarea {
+      background-color: #1f2937;
+      border: 1px solid #3b4148;
+      padding: 0.8rem;
+      border-radius: 10px;
+      resize: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .dark-textarea:focus {
+      border-color: #60a5fa;
+    }
+
+    #userList li {
+      padding-top: 3%;
+    }
+
+    .made-with-love {
+      width: max-content;
+      position: absolute;
+      /* bottom: 20px; */
+      left: 50%;
+      transform: translateX(-50%);
+      color: #e0e0e0;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .made-with-love i {
+      color: #ff4081;
+      transition: color 0.3s;
+    }
+
+    .made-with-love i#heart:hover,
+    .made-with-love i#coffee:hover {
+      color: #ff80ab;
+    }
+
+    .made-with-love a {
+      color: #6a676795;
+      text-decoration: none;
+      position: relative;
+      display: inline-block;
+      padding: 4px;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      transition: color 0.3s;
+    }
+
+    .made-with-love a:hover {
+      color: #4CAF50;
+    }
+
+    .made-with-love a::after {
+      content: "";
+      display: block;
+      height: 2px;
+      background: #4CAF50;
+      width: 0;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transition: width 0.3s, left 0.3s;
+    }
+
+    .made-with-love a:hover::after {
+      width: 100%;
+      left: 0;
+    }
+    #postbtn {
+      display: none;
+      position: fixed;
+      font-size: 6rem;
+      margin-left: 80dvw;
+      margin-top: 65dvh;
+      cursor: pointer;
+    }
+
+    .glow {
+      color: #d5d5d5;
+      text-shadow: 0 0 5px rgb(37 228 242 / 50%), 0 0 9px rgb(0 0 0 / 50%), 0 0 9px rgb(0 255 255), 0 0 20px rgb(0 255 255 / 45%);
+    }
+
+    .hover-motion:hover {
+      transform: scale(1.2);
+      transition: transform 0.3s ease-in-out; 
     }
   </style>
 </head>
 
-<body>
-
-  <div class="container">
-    <h2 id="formTitle">Sign Up</h2>
-    <form id="authForm">
-      <div class="input-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" placeholder="Enter your username" required>
+<body class="bg-animated text-white">
+  <nav class="bg-gray-800 p-4 flex justify-between items-center shadow-xl dark-card mx-4 my-4">
+    <div
+      class="text-3xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-blue-400 to-purple-600 transform transition duration-500 hover:scale-110">
+      <a href="#">The Shayari Section</a>
+    </div>
+    <div>
+      <span id="usernameDisplay" class="mr-4"></span>
+      <button id="loginButton" class="bg-blue-600 text-white py-2 px-4 rounded-lg neon-btn"
+        onclick="document.getElementById('loginFormContainer').style.display = 'block';">Login</button>
+      <button id="viewUsersButton" class="bg-purple-600 text-white py-2 px-4 rounded-lg neon-btn">View Users</button>
+    </div>
+  </nav>
+  <div id="loginFormContainer" class="p-6 fade-in max-w-md mx-auto dark-card glassmorph" style="display: none;">
+    <h2 class="text-2xl font-semibold mb-4 text-center glow-text whatever">Login</h2>
+    <form id="loginForm" class="p-4">
+      <div class="mb-4">
+        <label class="block text-sm mb-2" for="email">Email:</label>
+        <input type="email" id="email" class="dark-input w-full" required />
       </div>
-      <div class="input-group">
-        <label for="email" id="preemail">Email</label>
-        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+      <div class="mb-4">
+        <label class="block text-sm mb-2" for="password">Password:</label>
+        <input type="password" id="password" class="dark-input w-full" required />
       </div>
-      <div class="input-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Enter your password" required>
-      </div>
-      <div style="color: red;" id="permissionn">
-        <input type="checkbox" name="permission" id="permission">Allow your location for better image generation
-      </div>
-      <p class="error" id="error"></p>
-      <p class="status-message" id="statusMessage"></p>
-      <div id="btnn" style="display: flex; gap: 4dvw;">
-        <button type="submit" class="btn-submit" id="done" style="display: none;">Proceed</button>
-        <button type="button" class="btn-submit" id="loginBtn">Login</button>
-        <button class="btn-submit" style="display: none;" id="signupp" onclick="location.reload();">Create account</button>
-      </div>
+      <button type="submit" class="neon-btn w-full py-3 text-lg">Login</button>
+      <p style="padding-top: 3.5%;">don't have account <a href="main.html"
+          style="color: skyblue; padding-top: 0.5%; padding-left: 1%; margin-right: 2%;">create account.</a> Then login
+        again</p>
     </form>
   </div>
-
-
-  <!-- Firebase SDKs -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-    import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
-
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCsYaFiHjYWPB1V-rAt9DDMPIVezDInRvA",
-      authDomain: "loginpagetexttoimg.firebaseapp.com",
-      databaseURL: "https://loginpagetexttoimg-default-rtdb.firebaseio.com",
-      projectId: "loginpagetexttoimg",
-      storageBucket: "loginpagetexttoimg.appspot.com",
-      messagingSenderId: "515159688336",
-      appId: "1:515159688336:web:26c51a4be040cf4970c415",
-      measurementId: "G-WLBNFZZ77W"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const auth = getAuth(app);
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is logged in, redirect to main.html
-        // window.location.href = 'main.html';
-      }
-    });
-    // Function to get user's location
-    function getUserLocation() {
-      return new Promise((resolve, reject) => {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              resolve({
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-              });
-            },
-            (error) => {
-              reject("Unable to fetch location: " + error.message);
-            }
-          );
-        } else {
-          reject("Geolocation is not supported by this browser.");
-        }
-      });
-    }
-
-    // Function to update status message
-    function updateStatusMessage(message) {
-      const statusMessageElement = document.getElementById('statusMessage');
-      statusMessageElement.textContent = message;
-    }
-
-    // Handle form submission for sign up and login
-    // Handle form submission for sign up and login
-    document.getElementById('authForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      const email = document.getElementById('email').value;
-
-      // Clear previous error message
-      document.getElementById('error').textContent = '';
-
-      if (document.getElementById('formTitle').innerText === 'Sign Up') {
-        // Sign Up
-        updateStatusMessage('Creating account...');
-        getUserLocation()
-          .then((location) => {
-            const { latitude, longitude } = location;
-
-            createUserWithEmailAndPassword(auth, email, password)
-              .then((userCredential) => {
-                const userId = userCredential.user.uid; // Get the newly created user ID
-                set(ref(db, 'users/' + userId), { // Store user data in the database
-                  username: username,
-                  email: email,
-                  location: {
-                    latitude: latitude,
-                    longitude: longitude
-                  }
-                }).then(() => {
-                  updateStatusMessage('Account created successfully!');
-                  resetForm();
-                }).catch((error) => {
-                  console.error("Error storing user information: ", error);
-                  document.getElementById('error').textContent = "Error storing user information.";
-                  updateStatusMessage('');
-                });
-              })
-              .catch((error) => {
-                console.error("Error creating user: ", error);
-                document.getElementById('error').textContent = error.message;
-                updateStatusMessage('');
-              });
-          })
-          .catch((error) => {
-            console.error(error);
-            document.getElementById('error').textContent = error;
-            updateStatusMessage('');
-          });
-      }
-      else {
-        updateStatusMessage('Checking your username and password...');
-        get(child(ref(db), 'users/')).then((snapshot) => {
-          let userFound = false;
-          snapshot.forEach((childSnapshot) => {
-            const userData = childSnapshot.val();
-            const userId = childSnapshot.key;
-            if (userData.username === username) {
-              userFound = true;
-              const email = userData.email; // Retrieve email from database
-              signInWithEmailAndPassword(auth, email, password)
-                .then(() => {
-                  updateStatusMessage('');
-                  localStorage.setItem('loggedIn', 'true');
-
-                  // Redirect to another HTML file on successful login
-                  window.location.href = 'main.html'; // Change 'dashboard.html' to your desired file
-                })
-                .catch((error) => {
-                  console.error("Error signing in: ", error);
-                  document.getElementById('error').textContent = error.message;
-                  updateStatusMessage('');
-                });
-            }
-          });
-          if (!userFound) {
-            document.getElementById('error').textContent = "Username not found.";
-            updateStatusMessage('');
-          }
-        }).catch((error) => {
-          console.error("Error getting user data: ", error);
-          document.getElementById('error').textContent = "Error getting user data.";
-          updateStatusMessage('');
-        });
-      }
-    });
-
-    // Switch to Login when login button is clicked
-    document.getElementById('loginBtn').addEventListener('click', function () {
-      document.getElementById('formTitle').innerText = 'Login';
-      document.getElementById('authForm').reset();
-      document.getElementById('error').textContent = '';
-
-      // Hide email field for login
-      document.getElementById('email').style.display = "none";
-      document.getElementById('preemail').style.display = "none";
-      document.getElementById('loginBtn').style.display = "none";
-      document.getElementById('btnn').style.display = "flex";
-      document.getElementById('btnn').style.gap = "4dvw";
-      document.getElementById('signupp').style.display = "block";
-      document.getElementById('permissionn').style.display = "none";
-      document.getElementById('done').style.display = "block";
+  <div class="text-6xl glow hover-motion" id="postbtn">
+    +
+  </div>
+  <section id="shayari-section" class="p-6 fade-in max-w-2xl mx-auto dark-card my-6" style="display: none;">
+    <h2 class="text-2xl font-semibold mb-4 text-center glow-text">Post a Shayari</h2>
+    <form id="postShayariForm" class="p-4">
+      <div class="mb-4">
+        <label class="block text-sm mb-2" for="shayari">Shayari:</label>
+        <textarea id="shayari" class="dark-textarea w-full" rows="4" required></textarea>
+      </div>
+      <button type="submit" class="neon-btn w-full py-3 text-lg">Post Shayari</button>
+    </form>
+  </section>
+  <section id="non-main-shayari-container">
+    <section id="shayari-container" class="p-6 max-w-2xl mx-auto fade-in"
+      style="display: flex; flex-direction: column; height: 80dvh; overflow-y: scroll; scrollbar-width: none;">
+    </section>
+  </section>
 
 
 
-
-      // Remove required attribute for email when hidden
-      document.getElementById('email').required = false;
-
-      document.getElementById('statusMessage').textContent = ''; // Clear status message
-    });
-
-    // Function to reset form for new sign up
-    function resetForm() {
-      document.getElementById('formTitle').innerText = 'Sign Up';
-      document.getElementById('authForm').reset();
-      document.getElementById('error').textContent = '';
-
-      // Show email field for sign up
-      document.getElementById('email').style.display = "block";
-      document.getElementById('preemail').style.display = "block"; // Show email label for sign up
-
-      // Add required attribute back for email
-      document.getElementById('email').required = true;
-    }
-
-
-
-    const checkbox = document.getElementById('permission');
-        const doneElement = document.getElementById('done');
-
-        // Add an event listener to the checkbox
-        checkbox.addEventListener('change', function() {
-            if (checkbox.checked) {
-                // Show the element if the checkbox is checked
-                doneElement.style.display = 'block';
-            } else {
-                // Hide the element if the checkbox is unchecked
-                doneElement.style.display = 'none';
-            }
-        });
-
-  </script>
-
+  <div id="userListModal" style="display:none; overflow-y: scroll;"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+      <h2 class="text-xl font-semibold mb-4">All User's</h2>
+      <ul id="userList" class="list-disc pl-6"
+        style="display: grid; overflow-y: scroll; height: 24dvh; background: #f0f8ff1c; width: fit-content; border-radius: 5%; color: skyblue; scrollbar-width: none; padding-right: 22px;">
+      </ul>
+      <button id="closeUserList" class="mt-4 bg-red-600 text-white py-2 px-4 rounded-lg">Close</button>
+    </div>
+  </div>
+  <div class="made-with-love">
+    Made with <i id="heart">💖</i>&amp;<i id="coffee">☕</i> by
+    <a href="https://ramjeemishra.github.io/Ramjee_Mishra/">Developer Ram</a>
+  </div>
 </body>
 
 </html>

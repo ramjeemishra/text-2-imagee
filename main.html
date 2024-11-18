@@ -7,81 +7,24 @@
     <title>Image generator</title>
     <link rel="shortcut icon" href="imagegenerator_logo.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
-    <style>
-        .download-history {
-            margin-top: 20px;
-        }
-
-        #historyList {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        #historyList li {
-            margin-bottom: 10px;
-        }
-
-        #historyList img {
-            max-width: 100px;
-            max-height: 100px;
-            margin-right: 10px;
-            vertical-align: middle;
-        }
-
-        .fullscreen-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        #fullscreenHistoryContent {
-            text-align: center;
-            max-width: 90%;
-            max-height: 90%;
-            overflow-y: auto;
-        }
-
-        #fullscreenHistory img {
-            max-width: 200px;
-            max-height: 200px;
-            margin: 10px;
-        }
-
-        .close-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: red;
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
-    <div class="container">
-        <h1>Text 2 Image</h1> <label for="input">"When you describe your ex, but the app generates a pizza instead
-            😅"</label> <input type="text" id="user-input" placeholder="Dream it, write it, see it..."> <button
-            id="send-buttonn">Generate</button>
-            <div id="status" class="hidden">
-            </div><img id="image" width="50%" height="50%"
-            src="" alt=""> <a id="downloadBtn" href="#" download="generated-image.png" class="hidden">Download Image</a>
+    <div class="containerr">
+        <h1 class="text-4xl font-semibold text-bg-700 text-center shadow-md">
+            Text 2 Image
+        </h1>
+        
+        <label for="input">"When you describe your ex, but the app generates a pizza instead
+            😅"</label> <input type="text" id="user-input" placeholder="Dream it, write it, see it..." class="p-3 w-full max-w-md mb-4 bg-gray-800 text-white border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 shadow-md transition-all duration-200" />
+            <button id="send-buttonn" class="bg-gradient-to-r from-green-400 to-green-600 text-white py-3 px-6 rounded-lg shadow-lg hover:scale-105 hover:from-green-500 hover:to-green-700 transition-all duration-200">
+                Generate
+            </button>
+            
+        <div id="status" class="hidden">
+        </div><img id="image" width="50%" height="50%" src="" alt=""> <a id="downloadBtn" href="#"
+            download="generated-image.png" class="hidden">Download Image</a>
         <div class="pre-generated-images">
             <h2>Pre-Generated Images</h2>
             <div class="image-gallery"> <img src="pre-generated-img/anime_boy.jpg" alt="Pre-generated Image 1"> <img
@@ -94,11 +37,60 @@
                     alt="Pre-generated Image 3"> <img src="pre-generated-img/taylor2.png" alt="Pre-generated Image 3">
                 <img src="pre-generated-img/cute_puppy.png" alt="Pre-generated Image 3"> <img
                     src="pre-generated-img/man_working.jpeg" alt="Pre-generated Image 3"> <img
-                    src="pre-generated-img/tailor_iron.jpg" alt="Pre-generated Image 3"> </div>
+                    src="pre-generated-img/tailor_iron.jpg" alt="Pre-generated Image 3">
+            </div>
         </div>
+        <!-- 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 -->
+        <button id="showAiPromptGeneratorBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg transition duration-200">Go to AI Prompt Generator</button>
     </div>
+    <div class="ai-prompt-generator hidden bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center p-6 space-y-6">
+        <h1 class="text-4xl font-bold text-center text-gradient bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+            AI Prompt Generator
+        </h1>
+        <input type="text" id="promptInput" placeholder="Enter a description" class="w-full max-w-md p-4 bg-gray-800 text-white border-2 border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300 shadow-md" />
+        
+        <!-- Loader GIF (hidden by default) -->
+        <div id="loader" class="loader hidden mb-4">
+            <h2>Let me think...🤔</h2>
+        </div>
+        
+        <button id="promptGenerateBtn" class="w-full max-w-md py-3 bg-gradient-to-r from-green-400 to-green-600 text-white rounded-lg shadow-lg hover:scale-105 hover:from-green-500 hover:to-green-700 transition-all duration-200">
+            Generate Prompt
+        </button>
+        <p id="generatedPromptOutput" style="text-align: center; font-size: 1.125rem; color: #959fa0b3; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); white-space: pre-line;"></p>
+    
+        <button id="backToContainerBtn" class="w-full max-w-md py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-all duration-200">
+            Back
+        </button>
+    </div>
+    
     <div class="made-with-love"> Made with <i id="heart">💖</i>&amp;<i id="coffee">☕</i> by <a
             href="https://ramjeemishra.github.io/Ramjee_Mishra/">Developer Ram</a> </div>
+    <script>
+        // Get elements
+        const container = document.querySelector('.container');
+        const aiPromptGenerator = document.querySelector('.ai-prompt-generator');
+        const showAiPromptGeneratorBtn = document.getElementById('showAiPromptGeneratorBtn');
+        const backToContainerBtn = document.getElementById('backToContainerBtn');
+
+        // Show AI Prompt Generator and hide Container
+        showAiPromptGeneratorBtn.addEventListener('click', () => {
+            container.style.display = 'none'; // Hide container
+            aiPromptGenerator.style.display = 'block'; // Show AI Prompt Generator
+        });
+
+        // Go back to Container and hide AI Prompt Generator
+        backToContainerBtn.addEventListener('click', () => {
+            aiPromptGenerator.style.display = 'none'; // Hide AI Prompt Generator
+            container.style.display = 'block'; // Show container
+        });
+
+
+
+
+
+
+    </script>
     <script src="script.js"></script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
     <script>document.addEventListener('DOMContentLoaded', function () { const images = document.querySelectorAll('.image-gallery img'); images.forEach(img => { img.addEventListener('click', function () { if (this.classList.contains('enlarged')) { this.classList.remove('enlarged'); } else { images.forEach(image => image.classList.remove('enlarged')); this.classList.add('enlarged'); } }); }); }); </script>

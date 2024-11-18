@@ -9,14 +9,16 @@ body, h1, p, label, input, button, a, img {
 body {
     font-family: 'Roboto', sans-serif;
     text-align: center;
+    align-items: center;
+    justify-content: center;
     margin: 0;
     padding: 0;
     background: #020024;
     color: #e0e0e0;
 }
 
-/* Container styling */
-.container {
+/* Containerr styling */
+.containerr {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -223,6 +225,7 @@ img:hover {
     background: #1e1e1e;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+    margin-bottom: 5%;
 }
 
 .pre-generated-images h2 {
@@ -231,7 +234,7 @@ img:hover {
     margin-bottom: 20px;
 }
 
-.container {
+.containerr {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -309,4 +312,27 @@ img:hover {
     max-width: 90vw; /* Limit width to viewport width */
     max-height: 90vh; /* Limit height to viewport height */
     transition: transform 0.3s, opacity 0.3s;
+}
+
+
+/* prompt generator */
+.ai-prompt-generator {
+    margin-top: 20px;
+}
+
+#promptInput {
+    padding: 10px;
+    width: 60%;
+    margin-right: 10px;
+}
+
+#promptGenerateBtn {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#generatedPromptOutput {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;
 }

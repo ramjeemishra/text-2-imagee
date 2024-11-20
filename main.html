@@ -10,6 +10,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
 </head>
 
 <body class="bg-#020024">
@@ -32,7 +33,7 @@
             </button>
         </form>
 
-        <div id="status" class="hidden mt-6 text-center text-gray-700">
+        <div id="statuss" class="hidden mt-6 text-center text-gray-700">
             <!-- Status updates and animation will be injected here -->
         </div>
 
@@ -269,7 +270,6 @@
     </script>
     <script src="script.js"></script>
     <script>document.addEventListener('DOMContentLoaded', function () { const images = document.querySelectorAll('.image-gallery img'); images.forEach(img => { img.addEventListener('click', function () { if (this.classList.contains('enlarged')) { this.classList.remove('enlarged'); } else { images.forEach(image => image.classList.remove('enlarged')); this.classList.add('enlarged'); } }); }); }); </script>
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
 </body>
 
 </html>

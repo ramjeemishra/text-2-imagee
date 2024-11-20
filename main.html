@@ -8,21 +8,119 @@
     <link rel="shortcut icon" href="imagegenerator_logo.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 </head>
 
-<body>
+<body class="bg-black">
+
+
+    <div class="bg-black shadow-md rounded-lg p-6 w-full h-full max-w-md" id="Character-maker"
+        style="display: none; height: 100dvh;">
+        <h1 class="text-2xl font-bold text-white-800 text-center mb-4">Make your own Character</h1>
+        <form id="imageForm" class="space-y-4">
+            <div>
+                <label for="prompt" class="block text-gray-700 font-medium mb-1">It will generate your image within
+                    45-sec</label>
+                <input type="text" id="prompt"
+                    class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="e.g., Astronaut riding a horse" required />
+            </div>
+            <button type="submit"
+                class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition">
+                Generate Image
+            </button>
+        </form>
+
+        <div id="status" class="hidden mt-6 text-center text-gray-700">
+            <!-- Status updates and animation will be injected here -->
+        </div>
+
+        <div id="output" class="mt-6 text-center">
+            <img id="generatedImage" class="w-full rounded-lg shadow-md hidden" alt="Generated image" />
+            <a id="downloadBtn" href="#" download="generated-image.png"
+                class="hidden mt-4 inline-block bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition">
+                Download Image
+            </a>
+        </div>
+        <div class="mt-6">
+            <h2 class="text-lg font-semibold text-gray-800 text-center">Pre-Generated Images</h2>
+            <div class="swiper mySwiper mt-4">
+                <div class="swiper-wrapper">
+                    <!-- Pre-generated images as slides -->
+                    <div class="swiper-slide">
+                        <img src="charecterimg/char3.png" alt="Astronaut riding a horse"
+                            class="rounded-lg shadow-md" />
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="charecterimg/char2.jpeg" alt="Fantasy Forest"
+                            class="rounded-lg shadow-md" />
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="charecterimg/char1.png" alt="Robot City"
+                            class="rounded-lg shadow-md" />
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="charecterimg/char5.jpeg" alt="Dragon"
+                            class="rounded-lg shadow-md" />
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="charecterimg/char4.jpeg" alt="Dragon"
+                            class="rounded-lg shadow-md" />
+                    </div>
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+        <button id="close-charecter-maker"
+            class="w-full max-w-md py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-all duration-200"
+            style="margin-top: 20px; margin-bottom: 20px;">Back</button>
+    </div>
+
+
+
+
+
     <div class="containerr">
-        <h1 class="text-4xl font-semibold text-bg-700 text-center shadow-md">Text 2 Image</h1>
-        
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="#" class="text-2xl font-bold text-white">Text 2 Image</a>
+                <div class="relative">
+                    <button id="moreButton"
+                        class="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600 focus:outline-none">More</button>
+                    <div id="dropdownMenu"
+                        class="hidden absolute right-0 mt-2 w-40 bg-gray-600 text-white rounded shadow-md">
+                        <a href="#" id="showAiPromptGeneratorBtn" class="block px-4 py-2 bg-gray-900 hover:bg-gray-800"
+                            style="margin:10px; border-radius: 10px;">AI Prompt Generator</a>
+                        <!-- <a href="#" class="block px-4 py-2 bg-gray-900 hover:bg-gray-800"
+                            style="margin:10px; border-radius: 10px;">Logo maker</a> -->
+                        <a href="#" id="Character-maker-btn" class="block px-4 py-2 bg-gray-900 hover:bg-gray-800"
+                            style="margin:10px; border-radius: 10px;">Character maker</a>
+                        <!-- <a href="#" class="block px-4 py-2 bg-gray-900 hover:bg-gray-800"
+                            style="margin:10px; border-radius: 10px;">Help</a> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
         <label for="input">"When you describe your ex, but the app generates a pizza instead 😅"</label>
-        <input type="text" id="user-input" placeholder="Dream it, write it, see it..." class="p-3 w-full max-w-md mb-4 bg-gray-800 text-white border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 shadow-md transition-all duration-200" />
-        
+        <input type="text" id="user-input" placeholder="Dream it, write it, see it..."
+            class="p-3 w-full max-w-md mb-4 bg-gray-800 text-white border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 shadow-md transition-all duration-200" />
+
         <!-- Buttons for selecting generation speed -->
         <div class="flex justify-center space-x-4 my-6">
-            <button id="fast-generation" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-6 rounded transition-all duration-200">
+            <button id="fast-generation"
+                class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-6 rounded transition-all duration-200">
                 Faster Image Generation
             </button>
-            <button id="slow-generation" class="hover:bg-green-700 text-white py-2 px-6 rounded transition-all duration-200" style="background: #6d6d6dab;">
+            <button id="slow-generation"
+                class="hover:bg-green-700 text-white py-2 px-6 rounded transition-all duration-200"
+                style="background: #6d6d6dab;">
                 fast but high quality
             </button>
         </div>
@@ -49,36 +147,48 @@
                 <img src="pre-generated-img/tailor_iron.jpg" alt="Pre-generated Image 12">
             </div>
         </div>
-        <button id="showAiPromptGeneratorBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg transition duration-200">Go to AI Prompt Generator</button>
-
     </div>
 
-    <div class="ai-prompt-generator hidden bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center p-6 space-y-6">
-        <h1 class="text-4xl font-bold text-center text-gradient bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+    <div
+        class="ai-prompt-generator hidden bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center p-6 space-y-6">
+        <h1
+            class="text-4xl font-bold text-center text-gradient bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
             AI Prompt Generator
         </h1>
-        <input type="text" id="promptInput" placeholder="Enter a description" class="w-full max-w-md p-4 bg-gray-800 text-white border-2 border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300 shadow-md" />
-        
+        <input type="text" id="promptInput" placeholder="Enter a description"
+            class="w-full max-w-md p-4 bg-gray-800 text-white border-2 border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300 shadow-md" />
+
         <!-- Loader GIF (hidden by default) -->
         <div id="loader" class="loader hidden mb-4">
             <h2>Let me think...🤔</h2>
         </div>
-        
-        <button id="promptGenerateBtn" class="w-full max-w-md py-3 bg-gradient-to-r from-green-400 to-green-600 text-white rounded-lg shadow-lg hover:scale-105 hover:from-green-500 hover:to-green-700 transition-all duration-200">
+
+        <button id="promptGenerateBtn"
+            class="w-full max-w-md py-3 bg-gradient-to-r from-green-400 to-green-600 text-white rounded-lg shadow-lg hover:scale-105 hover:from-green-500 hover:to-green-700 transition-all duration-200">
             Generate Prompt
         </button>
-        <p id="generatedPromptOutput" style="text-align: center; font-size: 1.125rem; color: #959fa0b3; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); white-space: pre-line;"></p>
-    
-        <button id="backToContainerBtn" class="w-full max-w-md py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-all duration-200">
+        <p id="generatedPromptOutput"
+            style="text-align: center; font-size: 1.125rem; color: #959fa0b3; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); white-space: pre-line;">
+        </p>
+
+        <button id="backToContainerBtn"
+            class="w-full max-w-md py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-all duration-200">
             Back
         </button>
     </div>
 
 
     <div class="made-with-love">
-        Made with <i id="heart">💖</i>&amp;<i id="coffee">☕</i> by 
+        Made with <i id="heart">💖</i>&amp;<i id="coffee">☕</i> by
         <a href="https://ramjeemishra.netlify.app/">Developer Ram</a>
     </div>
+
+
+
+
+
+
+
 
     <script>
 
@@ -86,6 +196,9 @@
         const aiPromptGenerator = document.querySelector('.ai-prompt-generator');
         const showAiPromptGeneratorBtn = document.getElementById('showAiPromptGeneratorBtn');
         const backToContainerBtn = document.getElementById('backToContainerBtn');
+        const Charactermakerbtn = document.getElementById('Character-maker-btn');
+        const Charactermakerdiv = document.getElementById('Character-maker');
+        const closecharectermaker = document.getElementById('close-charecter-maker');
 
         showAiPromptGeneratorBtn.addEventListener('click', () => {
             container.style.display = 'none';
@@ -93,11 +206,68 @@
         });
 
         backToContainerBtn.addEventListener('click', () => {
-            aiPromptGenerator.style.display = 'none'; 
-            container.style.display = 'block';
+            aiPromptGenerator.style.display = 'none';
+            container.style.display = 'flex';
+        });
+
+
+        //charectermaker script
+        Charactermakerbtn.addEventListener('click', () => {
+            container.style.display = 'none';
+            Charactermakerdiv.style.display = 'block';
+        });
+
+        closecharectermaker.addEventListener('click', () => {
+            Charactermakerdiv.style.display = 'none';
+            container.style.display = 'flex';
+        });
+
+
+
+
+
+
+
+
+
+
+        const moreButton = document.getElementById('moreButton');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+
+        moreButton.addEventListener('click', () => {
+            dropdownMenu.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!moreButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.add('hidden');
+            }
+        });
+
+
+
+
+
+
+
+        const swiper = new Swiper(".mySwiper", {
+            loop: true,
+            autoplay: {
+                delay: 3000,
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            effect: "slide",
+            speed: 800,
         });
     </script>
-    <script src="script.js"></script>
+    <script src="sscript.js"></script>
     <script>document.addEventListener('DOMContentLoaded', function () { const images = document.querySelectorAll('.image-gallery img'); images.forEach(img => { img.addEventListener('click', function () { if (this.classList.contains('enlarged')) { this.classList.remove('enlarged'); } else { images.forEach(image => image.classList.remove('enlarged')); this.classList.add('enlarged'); } }); }); }); </script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
 </body>

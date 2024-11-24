@@ -142,10 +142,11 @@
       </div>
       <p class="error" id="error"></p>
       <p class="status-message" id="statusMessage"></p>
-      <div id="btnn" style="display: flex; gap: 4dvw;">
+      <div id="btnn" style="display: flex;">
         <button type="submit" class="btn-submit" id="done" style="display: none;">Proceed</button>
         <button type="button" class="btn-submit" id="loginBtn">Login</button>
         <button class="btn-submit2" style="display: none;" id="signupp" onclick="location.reload();">Create account</button>
+        <a href="forgot.html" class="btn-submit2" style="display: none;" id="forgotbutton">Forgot password?</a>
       </div>
     </form>
   </div>
@@ -153,193 +154,8 @@
 
   <!-- Firebase SDKs -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-    import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
-
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCsYaFiHjYWPB1V-rAt9DDMPIVezDInRvA",
-      authDomain: "loginpagetexttoimg.firebaseapp.com",
-      databaseURL: "https://loginpagetexttoimg-default-rtdb.firebaseio.com",
-      projectId: "loginpagetexttoimg",
-      storageBucket: "loginpagetexttoimg.appspot.com",
-      messagingSenderId: "515159688336",
-      appId: "1:515159688336:web:26c51a4be040cf4970c415",
-      measurementId: "G-WLBNFZZ77W"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const auth = getAuth(app);
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is logged in, redirect to main.html
-        // window.location.href = 'main.html';
-      }
-    });
-    // Function to get user's location
-    function getUserLocation() {
-      return new Promise((resolve, reject) => {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              resolve({
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-              });
-            },
-            (error) => {
-              reject("Unable to fetch location: " + error.message);
-            }
-          );
-        } else {
-          reject("Geolocation is not supported by this browser.");
-        }
-      });
-    }
-
-    // Function to update status message
-    function updateStatusMessage(message) {
-      const statusMessageElement = document.getElementById('statusMessage');
-      statusMessageElement.textContent = message;
-    }
-
-    // Handle form submission for sign up and login
-    document.getElementById('authForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      const email = document.getElementById('email').value;
-
-      // Clear previous error message
-      document.getElementById('error').textContent = '';
-
-      if (document.getElementById('formTitle').innerText === 'Sign Up') {
-        // Sign Up
-        updateStatusMessage('Creating account...');
-        getUserLocation()
-          .then((location) => {
-            const { latitude, longitude } = location;
-
-            createUserWithEmailAndPassword(auth, email, password)
-              .then((userCredential) => {
-                const userId = userCredential.user.uid; 
-                set(ref(db, 'users/' + userId), { 
-                  username: username,
-                  email: email,
-                  location: {
-                    latitude: latitude,
-                    longitude: longitude
-                  }
-                }).then(() => {
-                  updateStatusMessage('Account created successfully!');
-                  resetForm();
-                }).catch((error) => {
-                  console.error("Error storing user information: ", error);
-                  document.getElementById('error').textContent = "Error storing user information.";
-                  updateStatusMessage('');
-                });
-              })
-              .catch((error) => {
-                console.error("Error creating user: ", error);
-                document.getElementById('error').textContent = error.message;
-                updateStatusMessage('');
-              });
-          })
-          .catch((error) => {
-            console.error(error);
-            document.getElementById('error').textContent = error;
-            updateStatusMessage('');
-          });
-      }
-      else {
-        updateStatusMessage('Checking your username and password...');
-        get(child(ref(db), 'users/')).then((snapshot) => {
-          let userFound = false;
-          snapshot.forEach((childSnapshot) => {
-            const userData = childSnapshot.val();
-            const userId = childSnapshot.key;
-            if (userData.username === username) {
-              userFound = true;
-              const email = userData.email; // Retrieve email from database
-              signInWithEmailAndPassword(auth, email, password)
-                .then(() => {
-                  updateStatusMessage('');
-                  localStorage.setItem('loggedIn', 'true');
-
-                  // Redirect to another HTML file on successful login
-                  window.location.href = 'main.html'; 
-                })
-                .catch((error) => {
-                  console.error("Error signing in: ", error);
-                  document.getElementById('error').textContent = error.message;
-                  updateStatusMessage('');
-                });
-            }
-          });
-          if (!userFound) {
-            document.getElementById('error').textContent = "Username not found.";
-            updateStatusMessage('');
-          }
-        }).catch((error) => {
-          console.error("Error getting user data: ", error);
-          document.getElementById('error').textContent = "Error getting user data.";
-          updateStatusMessage('');
-        });
-      }
-    });
-
-    document.getElementById('loginBtn').addEventListener('click', function () {
-      document.getElementById('formTitle').innerText = 'Login';
-      document.getElementById('authForm').reset();
-      document.getElementById('error').textContent = '';
-
-      document.getElementById('email').style.display = "none";
-      document.getElementById('preemail').style.display = "none";
-      document.getElementById('loginBtn').style.display = "none";
-      document.getElementById('btnn').style.display = "flex";
-      document.getElementById('btnn').style.gap = "4dvw";
-      document.getElementById('signupp').style.display = "block";
-      document.getElementById('permissionn').style.display = "none";
-      document.getElementById('done').style.display = "block";
-
-
-
-
-      document.getElementById('email').required = false;
-
-      document.getElementById('statusMessage').textContent = ''; 
-    });
-
-    // Function to reset form for new sign up
-    function resetForm() {
-      document.getElementById('formTitle').innerText = 'Sign Up';
-      document.getElementById('authForm').reset();
-      document.getElementById('error').textContent = '';
-
-      document.getElementById('email').style.display = "block";
-      document.getElementById('preemail').style.display = "block"; 
-      document.getElementById('email').required = true;
-    }
-
-
-
-    const checkbox = document.getElementById('permission');
-        const doneElement = document.getElementById('done');
-
-        checkbox.addEventListener('change', function() {
-            if (checkbox.checked) {
-                doneElement.style.display = 'block';
-            } else {
-                doneElement.style.display = 'none';
-            }
-        });
-
-  </script>
-
+const _0x312d33=_0xd9ae;(function(_0x2666b8,_0x230f38){const _0x241b00=_0xd9ae,_0x8fdc83=_0x2666b8();while(!![]){try{const _0x441d8c=-parseInt(_0x241b00(0x1a7))/0x1*(-parseInt(_0x241b00(0x1c2))/0x2)+-parseInt(_0x241b00(0x1c1))/0x3+-parseInt(_0x241b00(0x1cd))/0x4+-parseInt(_0x241b00(0x1cb))/0x5+-parseInt(_0x241b00(0x1d2))/0x6+-parseInt(_0x241b00(0x1b1))/0x7*(parseInt(_0x241b00(0x1a2))/0x8)+parseInt(_0x241b00(0x1a5))/0x9;if(_0x441d8c===_0x230f38)break;else _0x8fdc83['push'](_0x8fdc83['shift']());}catch(_0x2c8ea3){_0x8fdc83['push'](_0x8fdc83['shift']());}}}(_0x2765,0xcb27a));function _0x2765(){const _0xfa5c31=['Unable\x20to\x20fetch\x20location:\x20','catch','loginpagetexttoimg','Sign\x20Up','9054570AqHnGN','users/','href','getElementById','signupp','longitude','error','value','uid','Error\x20storing\x20user\x20information.','style','G-WLBNFZZ77W','formTitle','password','setItem','loginBtn','preemail','email','reset','btnn','innerText','checked','Error\x20creating\x20user:\x20','56EEwmZj','permission','addEventListener','54662166dtaJZY','loginpagetexttoimg.firebaseapp.com','2633XeIbCt','none','username','block','display','message','Login','Checking\x20your\x20username\x20and\x20password...','textContent','Creating\x20account...','445102GrBctU','required','Error\x20getting\x20user\x20data:\x20','location','main.html','val','authForm','user','1:515159688336:web:26c51a4be040cf4970c415','submit','geolocation','then','loginpagetexttoimg.appspot.com','change','preventDefault','click','2630109nFCKdc','82FztNqT','Error\x20getting\x20user\x20data.','true','done','flex','key','forEach','https://loginpagetexttoimg-default-rtdb.firebaseio.com','statusMessage','6028515YIorto','coords','5251208uUjVXy'];_0x2765=function(){return _0xfa5c31;};return _0x2765();}import{initializeApp}from'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js';import{getDatabase,ref,set,get,child}from'https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js';import{getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged}from'https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js';const firebaseConfig={'apiKey':'AIzaSyCsYaFiHjYWPB1V-rAt9DDMPIVezDInRvA','authDomain':_0x312d33(0x1a6),'databaseURL':_0x312d33(0x1c9),'projectId':_0x312d33(0x1d0),'storageBucket':_0x312d33(0x1bd),'messagingSenderId':'515159688336','appId':_0x312d33(0x1b9),'measurementId':_0x312d33(0x1dd)},app=initializeApp(firebaseConfig),db=getDatabase(app),auth=getAuth(app);onAuthStateChanged(auth,_0x24b94f=>{if(_0x24b94f){}});function _0xd9ae(_0xfd7c9c,_0x4d16d5){const _0x276582=_0x2765();return _0xd9ae=function(_0xd9ae35,_0x369485){_0xd9ae35=_0xd9ae35-0x19b;let _0x3f564b=_0x276582[_0xd9ae35];return _0x3f564b;},_0xd9ae(_0xfd7c9c,_0x4d16d5);}function getUserLocation(){return new Promise((_0x424e57,_0x319af5)=>{const _0x15dbb3=_0xd9ae;navigator[_0x15dbb3(0x1bb)]?navigator[_0x15dbb3(0x1bb)]['getCurrentPosition'](_0x3d8720=>{const _0x2ff0fc=_0x15dbb3;_0x424e57({'latitude':_0x3d8720['coords']['latitude'],'longitude':_0x3d8720[_0x2ff0fc(0x1cc)][_0x2ff0fc(0x1d7)]});},_0x6d0fae=>{const _0xb79705=_0x15dbb3;_0x319af5(_0xb79705(0x1ce)+_0x6d0fae[_0xb79705(0x1ac)]);}):_0x319af5('Geolocation\x20is\x20not\x20supported\x20by\x20this\x20browser.');});}function updateStatusMessage(_0x162adc){const _0x5995b=_0x312d33,_0x135028=document[_0x5995b(0x1d5)](_0x5995b(0x1ca));_0x135028['textContent']=_0x162adc;}document[_0x312d33(0x1d5)]('authForm')[_0x312d33(0x1a4)](_0x312d33(0x1ba),function(_0x5a3adf){const _0x1ca396=_0x312d33;_0x5a3adf[_0x1ca396(0x1bf)]();const _0x2f0706=document[_0x1ca396(0x1d5)](_0x1ca396(0x1a9))[_0x1ca396(0x1d9)],_0x32b7f7=document[_0x1ca396(0x1d5)](_0x1ca396(0x1df))[_0x1ca396(0x1d9)],_0x1ee9fe=document[_0x1ca396(0x1d5)](_0x1ca396(0x19c))[_0x1ca396(0x1d9)];document[_0x1ca396(0x1d5)](_0x1ca396(0x1d8))[_0x1ca396(0x1af)]='',document['getElementById'](_0x1ca396(0x1de))[_0x1ca396(0x19f)]===_0x1ca396(0x1d1)?(updateStatusMessage(_0x1ca396(0x1b0)),getUserLocation()['then'](_0x230c49=>{const _0x557d01=_0x1ca396,{latitude:_0x3bf6dc,longitude:_0x529ab9}=_0x230c49;createUserWithEmailAndPassword(auth,_0x1ee9fe,_0x32b7f7)[_0x557d01(0x1bc)](_0x5e4f50=>{const _0x93c555=_0x557d01,_0x488949=_0x5e4f50[_0x93c555(0x1b8)][_0x93c555(0x1da)];set(ref(db,_0x93c555(0x1d3)+_0x488949),{'username':_0x2f0706,'email':_0x1ee9fe,'location':{'latitude':_0x3bf6dc,'longitude':_0x529ab9}})[_0x93c555(0x1bc)](()=>{updateStatusMessage('Account\x20created\x20successfully!'),resetForm();})[_0x93c555(0x1cf)](_0x50079b=>{const _0x51ca46=_0x93c555;console[_0x51ca46(0x1d8)]('Error\x20storing\x20user\x20information:\x20',_0x50079b),document[_0x51ca46(0x1d5)](_0x51ca46(0x1d8))[_0x51ca46(0x1af)]=_0x51ca46(0x1db),updateStatusMessage('');});})[_0x557d01(0x1cf)](_0x496a5e=>{const _0x1f6c59=_0x557d01;console[_0x1f6c59(0x1d8)](_0x1f6c59(0x1a1),_0x496a5e),document[_0x1f6c59(0x1d5)](_0x1f6c59(0x1d8))[_0x1f6c59(0x1af)]=_0x496a5e['message'],updateStatusMessage('');});})[_0x1ca396(0x1cf)](_0x5e15bb=>{const _0x8019e4=_0x1ca396;console[_0x8019e4(0x1d8)](_0x5e15bb),document[_0x8019e4(0x1d5)]('error')[_0x8019e4(0x1af)]=_0x5e15bb,updateStatusMessage('');})):(updateStatusMessage(_0x1ca396(0x1ae)),get(child(ref(db),_0x1ca396(0x1d3)))[_0x1ca396(0x1bc)](_0x281f2c=>{const _0x10b84c=_0x1ca396;let _0x434369=![];_0x281f2c[_0x10b84c(0x1c8)](_0x3823e8=>{const _0x4f11be=_0x10b84c,_0x11c6b6=_0x3823e8[_0x4f11be(0x1b6)](),_0x34b52e=_0x3823e8[_0x4f11be(0x1c7)];if(_0x11c6b6['username']===_0x2f0706){_0x434369=!![];const _0x137456=_0x11c6b6[_0x4f11be(0x19c)];signInWithEmailAndPassword(auth,_0x137456,_0x32b7f7)[_0x4f11be(0x1bc)](()=>{const _0x3320d2=_0x4f11be;updateStatusMessage(''),localStorage[_0x3320d2(0x1e0)]('loggedIn',_0x3320d2(0x1c4)),window[_0x3320d2(0x1b4)][_0x3320d2(0x1d4)]=_0x3320d2(0x1b5);})[_0x4f11be(0x1cf)](_0x1244eb=>{const _0xcffa5c=_0x4f11be;console[_0xcffa5c(0x1d8)]('Error\x20signing\x20in:\x20',_0x1244eb),document[_0xcffa5c(0x1d5)]('error')['textContent']=_0x1244eb[_0xcffa5c(0x1ac)],updateStatusMessage('');});}}),!_0x434369&&(document[_0x10b84c(0x1d5)]('error')[_0x10b84c(0x1af)]='Username\x20not\x20found.',updateStatusMessage(''));})[_0x1ca396(0x1cf)](_0x571e7b=>{const _0x3b360e=_0x1ca396;console[_0x3b360e(0x1d8)](_0x3b360e(0x1b3),_0x571e7b),document[_0x3b360e(0x1d5)](_0x3b360e(0x1d8))[_0x3b360e(0x1af)]=_0x3b360e(0x1c3),updateStatusMessage('');}));}),document['getElementById'](_0x312d33(0x1e1))[_0x312d33(0x1a4)](_0x312d33(0x1c0),function(){const _0x11c138=_0x312d33;document[_0x11c138(0x1d5)](_0x11c138(0x1de))[_0x11c138(0x19f)]=_0x11c138(0x1ad),document[_0x11c138(0x1d5)](_0x11c138(0x1b7))[_0x11c138(0x19d)](),document[_0x11c138(0x1d5)]('error')[_0x11c138(0x1af)]='',document[_0x11c138(0x1d5)](_0x11c138(0x19c))[_0x11c138(0x1dc)]['display']=_0x11c138(0x1a8),document[_0x11c138(0x1d5)]('preemail')[_0x11c138(0x1dc)][_0x11c138(0x1ab)]=_0x11c138(0x1a8),document['getElementById'](_0x11c138(0x1e1))[_0x11c138(0x1dc)][_0x11c138(0x1ab)]='none',document[_0x11c138(0x1d5)](_0x11c138(0x19e))[_0x11c138(0x1dc)]['display']=_0x11c138(0x1c6),document[_0x11c138(0x1d5)](_0x11c138(0x1d6))[_0x11c138(0x1dc)][_0x11c138(0x1ab)]=_0x11c138(0x1aa),document[_0x11c138(0x1d5)]('forgotbutton')['style'][_0x11c138(0x1ab)]=_0x11c138(0x1aa),document['getElementById']('permissionn')['style']['display']='none',document[_0x11c138(0x1d5)]('done')[_0x11c138(0x1dc)][_0x11c138(0x1ab)]=_0x11c138(0x1aa),document['getElementById']('email')[_0x11c138(0x1b2)]=![],document['getElementById']('statusMessage')[_0x11c138(0x1af)]='';});function resetForm(){const _0x13771e=_0x312d33;document[_0x13771e(0x1d5)](_0x13771e(0x1de))['innerText']='Sign\x20Up',document[_0x13771e(0x1d5)](_0x13771e(0x1b7))['reset'](),document[_0x13771e(0x1d5)](_0x13771e(0x1d8))[_0x13771e(0x1af)]='',document[_0x13771e(0x1d5)](_0x13771e(0x19c))['style'][_0x13771e(0x1ab)]=_0x13771e(0x1aa),document[_0x13771e(0x1d5)](_0x13771e(0x19b))[_0x13771e(0x1dc)][_0x13771e(0x1ab)]=_0x13771e(0x1aa),document[_0x13771e(0x1d5)](_0x13771e(0x19c))['required']=!![];}const checkbox=document[_0x312d33(0x1d5)](_0x312d33(0x1a3)),doneElement=document['getElementById'](_0x312d33(0x1c5));checkbox['addEventListener'](_0x312d33(0x1be),function(){const _0x376d5d=_0x312d33;checkbox[_0x376d5d(0x1a0)]?doneElement[_0x376d5d(0x1dc)][_0x376d5d(0x1ab)]=_0x376d5d(0x1aa):doneElement[_0x376d5d(0x1dc)][_0x376d5d(0x1ab)]=_0x376d5d(0x1a8);});  </script>
+</script>
 </body>
 
 </html>

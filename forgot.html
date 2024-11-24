@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Reset</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js"></script>
+</head>
+
+<body class="bg-gray-900 grid items-center justify-center min-h-screen">
+    <button onclick="redirectToIndex()" type="button"
+    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-md shadow-md hover:shadow-lg transition-all">
+    Back🙂
+</button>
+    <div id="forgotpass-div"
+        class="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md transition-transform transform hover:scale-105">
+        <h2 class="text-2xl font-bold text-white mb-6 text-center">Reset Your Password</h2>
+        <form id="email-reset-form" class="space-y-4">
+            <label for="reset-email" class="block text-gray-400 text-sm font-medium">
+                Email Address:
+            </label>
+            <div class="relative">
+                <input type="email" id="reset-email"
+                    class="w-full px-4 py-2 border border-gray-600 bg-gray-700 text-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Enter your email" required />
+            </div>
+            <button type="button" id="send-reset-link"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-md shadow-md hover:shadow-lg transition-all">
+                Submit🥲
+            </button>
+        </form>
+        <p id="reset-feedback" class="mt-4 text-sm text-gray-400 text-center"></p>
+    </div>
+<script>(function(_0x136b66,_0x3e948b){var _0x9810c7=_0x5aaa,_0x4ea926=_0x136b66();while(!![]){try{var _0x28977a=-parseInt(_0x9810c7(0x10a))/0x1*(parseInt(_0x9810c7(0x10f))/0x2)+parseInt(_0x9810c7(0x111))/0x3+-parseInt(_0x9810c7(0x114))/0x4+-parseInt(_0x9810c7(0x115))/0x5*(-parseInt(_0x9810c7(0x113))/0x6)+-parseInt(_0x9810c7(0x10c))/0x7*(-parseInt(_0x9810c7(0x110))/0x8)+parseInt(_0x9810c7(0x10b))/0x9+-parseInt(_0x9810c7(0x116))/0xa*(parseInt(_0x9810c7(0x10d))/0xb);if(_0x28977a===_0x3e948b)break;else _0x4ea926['push'](_0x4ea926['shift']());}catch(_0x189823){_0x4ea926['push'](_0x4ea926['shift']());}}}(_0x4dfd,0x54ff3));function _0x4dfd(){var _0x24176b=['14296029JnbFrt','./index.html','6LeWYnf','584eQxvWo','1660560tBxHiJ','href','54LddsZF','2452472nvOTtQ','306255kLpEfJ','10YWTuwE','location','16226XhVgiV','6020190inUBGM','51387endZau'];_0x4dfd=function(){return _0x24176b;};return _0x4dfd();}function _0x5aaa(_0x11b5e7,_0xd77deb){var _0x4dfd27=_0x4dfd();return _0x5aaa=function(_0x5aaa55,_0x120208){_0x5aaa55=_0x5aaa55-0x109;var _0x22356f=_0x4dfd27[_0x5aaa55];return _0x22356f;},_0x5aaa(_0x11b5e7,_0xd77deb);}function redirectToIndex(){var _0x318c3d=_0x5aaa;window[_0x318c3d(0x109)][_0x318c3d(0x112)]=_0x318c3d(0x10e);}</script>
+    <script type="module">
+const _0x69f998=_0x3bc1;function _0x231d(){const _0x1a2d37=['color','val','reset-email','Please\x20enter\x20your\x20email.','red','3746215PAMQlz','515159688336','trim','addEventListener','Checking\x20your\x20email,\x20please\x20wait...','Failed\x20to\x20send\x20the\x20password\x20reset\x20email.\x20Please\x20try\x20again\x20later.','send-reset-link','loginpagetexttoimg.appspot.com','loginpagetexttoimg','1488ApxEqC','7385958FmanyB','12Evgygn','1:515159688336:web:26c51a4be040cf4970c415','No\x20user\x20records\x20found.','165041feRjnz','AIzaSyCsYaFiHjYWPB1V-rAt9DDMPIVezDInRvA','6dBsHUt','A\x20password\x20reset\x20link\x20has\x20been\x20sent\x20to\x20','code','30eAcULC','textContent','4441288scENCL','style','The\x20email\x20address\x20is\x20not\x20valid.\x20Please\x20try\x20again.','blue','getElementById','3565945vgDXOG','some','green','12845DcFiYD','email','800008DIedAA','Network\x20error.\x20Please\x20check\x20your\x20internet\x20connection\x20and\x20try\x20again.','reset-feedback'];_0x231d=function(){return _0x1a2d37;};return _0x231d();}function _0x3bc1(_0x225a5b,_0x29c3c8){const _0x231dca=_0x231d();return _0x3bc1=function(_0x3bc1b1,_0x1000bf){_0x3bc1b1=_0x3bc1b1-0xaa;let _0x5aefa1=_0x231dca[_0x3bc1b1];return _0x5aefa1;},_0x3bc1(_0x225a5b,_0x29c3c8);}(function(_0x5562d8,_0x5218c0){const _0x48da6f=_0x3bc1,_0x2f65cc=_0x5562d8();while(!![]){try{const _0x5d8bab=-parseInt(_0x48da6f(0xb5))/0x1*(-parseInt(_0x48da6f(0xb7))/0x2)+-parseInt(_0x48da6f(0xb2))/0x3*(parseInt(_0x48da6f(0xc6))/0x4)+parseInt(_0x48da6f(0xc1))/0x5+-parseInt(_0x48da6f(0xb0))/0x6*(-parseInt(_0x48da6f(0xc4))/0x7)+-parseInt(_0x48da6f(0xbc))/0x8+-parseInt(_0x48da6f(0xb1))/0x9+parseInt(_0x48da6f(0xba))/0xa*(parseInt(_0x48da6f(0xce))/0xb);if(_0x5d8bab===_0x5218c0)break;else _0x2f65cc['push'](_0x2f65cc['shift']());}catch(_0x564f69){_0x2f65cc['push'](_0x2f65cc['shift']());}}}(_0x231d,0x7c548));import{initializeApp}from'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js';import{getAuth,sendPasswordResetEmail}from'https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js';import{getDatabase,ref,get,child}from'https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js';const firebaseConfig={'apiKey':_0x69f998(0xb6),'authDomain':'loginpagetexttoimg.firebaseapp.com','databaseURL':'https://loginpagetexttoimg-default-rtdb.firebaseio.com','projectId':_0x69f998(0xaf),'storageBucket':_0x69f998(0xae),'messagingSenderId':_0x69f998(0xcf),'appId':_0x69f998(0xb3),'measurementId':'G-WLBNFZZ77W'},app=initializeApp(firebaseConfig),auth=getAuth(app),db=getDatabase(app),sendResetBtn=document[_0x69f998(0xc0)](_0x69f998(0xad)),emailInput=document[_0x69f998(0xc0)](_0x69f998(0xcb)),feedback=document['getElementById'](_0x69f998(0xc8));sendResetBtn[_0x69f998(0xaa)]('click',async()=>{const _0x32c6d7=_0x69f998,_0x2e4999=emailInput['value'][_0x32c6d7(0xd0)]();if(!_0x2e4999){feedback[_0x32c6d7(0xbb)]=_0x32c6d7(0xcc),feedback[_0x32c6d7(0xbd)][_0x32c6d7(0xc9)]=_0x32c6d7(0xcd);return;}feedback[_0x32c6d7(0xbb)]=_0x32c6d7(0xab),feedback[_0x32c6d7(0xbd)][_0x32c6d7(0xc9)]=_0x32c6d7(0xbf);try{const _0xaf3150=ref(db),_0x5deaa9=await get(child(_0xaf3150,'users'));if(_0x5deaa9['exists']()){const _0x23a5cd=_0x5deaa9[_0x32c6d7(0xca)](),_0x110c1b=Object['values'](_0x23a5cd)[_0x32c6d7(0xc2)](_0x20927a=>_0x20927a[_0x32c6d7(0xc5)]===_0x2e4999);if(!_0x110c1b){feedback[_0x32c6d7(0xbb)]='Email\x20not\x20found\x20in\x20our\x20records.',feedback['style'][_0x32c6d7(0xc9)]=_0x32c6d7(0xcd);return;}await sendPasswordResetEmail(auth,_0x2e4999),feedback['textContent']=_0x32c6d7(0xb8)+_0x2e4999+'.\x20Check\x20your\x20inbox.',feedback[_0x32c6d7(0xbd)][_0x32c6d7(0xc9)]=_0x32c6d7(0xc3);}else feedback[_0x32c6d7(0xbb)]=_0x32c6d7(0xb4),feedback['style']['color']=_0x32c6d7(0xcd);}catch(_0x1727d6){console['error'](_0x1727d6);if(_0x1727d6[_0x32c6d7(0xb9)]==='auth/invalid-email')feedback[_0x32c6d7(0xbb)]=_0x32c6d7(0xbe);else _0x1727d6[_0x32c6d7(0xb9)]==='auth/network-request-failed'?feedback[_0x32c6d7(0xbb)]=_0x32c6d7(0xc7):feedback[_0x32c6d7(0xbb)]=_0x32c6d7(0xac);feedback['style'][_0x32c6d7(0xc9)]='red';}});
+    </script>
+</body>
+
+</html>

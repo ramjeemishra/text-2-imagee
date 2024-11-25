@@ -50,24 +50,19 @@
                 <div class="swiper-wrapper">
                     <!-- Pre-generated images as slides -->
                     <div class="swiper-slide">
-                        <img src="charecterimg/char3.png" alt="Astronaut riding a horse"
-                            class="rounded-lg shadow-md" />
+                        <img src="charecterimg/char3.png" alt="Astronaut riding a horse" class="rounded-lg shadow-md" />
                     </div>
                     <div class="swiper-slide">
-                        <img src="charecterimg/char2.jpeg" alt="Fantasy Forest"
-                            class="rounded-lg shadow-md" />
+                        <img src="charecterimg/char2.jpeg" alt="Fantasy Forest" class="rounded-lg shadow-md" />
                     </div>
                     <div class="swiper-slide">
-                        <img src="charecterimg/char1.png" alt="Robot City"
-                            class="rounded-lg shadow-md" />
+                        <img src="charecterimg/char1.png" alt="Robot City" class="rounded-lg shadow-md" />
                     </div>
                     <div class="swiper-slide">
-                        <img src="charecterimg/char5.jpeg" alt="Dragon"
-                            class="rounded-lg shadow-md" />
+                        <img src="charecterimg/char5.jpeg" alt="Dragon" class="rounded-lg shadow-md" />
                     </div>
                     <div class="swiper-slide">
-                        <img src="charecterimg/char4.jpeg" alt="Dragon"
-                            class="rounded-lg shadow-md" />
+                        <img src="charecterimg/char4.jpeg" alt="Dragon" class="rounded-lg shadow-md" />
                     </div>
                 </div>
                 <div class="swiper-button-next"></div>
@@ -101,19 +96,28 @@
                             style="margin:10px; border-radius: 10px;">Character maker</a>
                         <!-- <a href="#" class="block px-4 py-2 bg-gray-900 hover:bg-gray-800"
                             style="margin:10px; border-radius: 10px;">Help</a> -->
+                        <button href="#" id="usersButton" class="block px-4 py-2 bg-gray-900 hover:bg-gray-800"
+                            style="margin:10px; border-radius: 10px;">Users</button>
                     </div>
                 </div>
             </div>
         </div>
 
-
-
+        <div id="userListContainer" class="hidden w-full h-full flex flex-col items-center justify-center">
+            <button id="backButton" class="absolute top-5 left-5 px-4 py-2 bg-gray-700 hover:bg-gray-500 rounded-md text-white">
+              Back
+            </button>
+            <h1 class="text-2xl font-bold mb-6">Users</h1>
+            <ul id="userList" class="w-11/12 max-w-2xl bg-gray-800 p-6 rounded-lg shadow-lg space-y-2 overflow-y-auto max-h-[70vh]">
+              
+            </ul>
+          </div>
+<div id="sub-main" style="display: contents;">
 
         <label for="input">"When you describe your ex, but the app generates a pizza instead 😅"</label>
         <input type="text" id="user-input" placeholder="Dream it, write it, see it..."
             class="p-3 w-full max-w-md mb-4 bg-gray-800 text-white border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 shadow-md transition-all duration-200" />
 
-        <!-- Buttons for selecting generation speed -->
         <div class="flex justify-center space-x-4 my-6">
             <button id="fast-generation"
                 class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-6 rounded transition-all duration-200">
@@ -126,7 +130,6 @@
             </button>
         </div>
 
-        <!-- Status and Image Output -->
         <div id="status" class="hidden"></div>
         <img id="image" width="50%" height="50%" src="" alt="">
         <a id="downloadBtn" href="#" download="generated-image.png" class="hidden">Download Image</a>
@@ -149,7 +152,7 @@
             </div>
         </div>
     </div>
-
+</div>
     <div
         class="ai-prompt-generator hidden bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center p-6 space-y-6">
         <h1
@@ -159,7 +162,6 @@
         <input type="text" id="promptInput" placeholder="Enter a description"
             class="w-full max-w-md p-4 bg-gray-800 text-white border-2 border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300 shadow-md" />
 
-        <!-- Loader GIF (hidden by default) -->
         <div id="loader" class="loader hidden mb-4">
             <h2>Let me think...🤔</h2>
         </div>
@@ -188,88 +190,16 @@
 
 
 
-
+<script type="module">
+const _0x718dc1=_0x2b47;(function(_0x224105,_0x59abcc){const _0xbc361c=_0x2b47,_0x3d31da=_0x224105();while(!![]){try{const _0x5e5719=-parseInt(_0xbc361c(0x7c))/0x1+parseInt(_0xbc361c(0x8c))/0x2+parseInt(_0xbc361c(0x79))/0x3*(parseInt(_0xbc361c(0x9c))/0x4)+parseInt(_0xbc361c(0x9d))/0x5*(parseInt(_0xbc361c(0xa1))/0x6)+parseInt(_0xbc361c(0x8f))/0x7*(parseInt(_0xbc361c(0x85))/0x8)+parseInt(_0xbc361c(0x95))/0x9+-parseInt(_0xbc361c(0x9f))/0xa*(parseInt(_0xbc361c(0xa2))/0xb);if(_0x5e5719===_0x59abcc)break;else _0x3d31da['push'](_0x3d31da['shift']());}catch(_0x452ef7){_0x3d31da['push'](_0x3d31da['shift']());}}}(_0x4c66,0xf0a62));import{initializeApp}from'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js';function _0x4c66(){const _0x4b6587=['style','No\x20data\x20available.','3299964zPaFYH','loginpagetexttoimg','log','8954351UOBeTB','https://loginpagetexttoimg-default-rtdb.firebaseio.com','map','usersButton','forEach','G-WLBNFZZ77W','13579146xnvtgi','addEventListener','createElement','1:515159688336:web:26c51a4be040cf4970c415','hidden','p-3\x20bg-gray-700\x20hover:bg-gray-600\x20rounded-md\x20text-lg','loginpagetexttoimg.firebaseapp.com','151592AXvYmo','1135zUyZcu','515159688336','130BRxwoA','users','45516mPEFxY','4329303QcNxdp','sub-main','click','69fQOIIG','Error\x20fetching\x20user\x20data:','userList','929498LxHoGE','userListContainer','backButton','sort','innerHTML','display','getElementById','error','exists','8dXchRT','username','toggle','textContent','none'];_0x4c66=function(){return _0x4b6587;};return _0x4c66();}import{getDatabase,ref,get,child}from'https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js';const firebaseConfig={'apiKey':'AIzaSyCsYaFiHjYWPB1V-rAt9DDMPIVezDInRvA','authDomain':_0x718dc1(0x9b),'databaseURL':_0x718dc1(0x90),'projectId':_0x718dc1(0x8d),'storageBucket':'loginpagetexttoimg.appspot.com','messagingSenderId':_0x718dc1(0x9e),'appId':_0x718dc1(0x98),'measurementId':_0x718dc1(0x94)},app=initializeApp(firebaseConfig),database=getDatabase(app);async function fetchAndDisplayUsers(){const _0x2c5e47=_0x718dc1,_0x407f2a=ref(database);try{const _0x5bbf7b=await get(child(_0x407f2a,_0x2c5e47(0xa0)));if(_0x5bbf7b[_0x2c5e47(0x84)]()){const _0x5eb11f=_0x5bbf7b['val'](),_0x50a839=Object['values'](_0x5eb11f)[_0x2c5e47(0x91)](_0x52d27a=>_0x52d27a[_0x2c5e47(0x86)]);_0x50a839[_0x2c5e47(0x7f)](),displayUsernames(_0x50a839),toggleContainers();}else console[_0x2c5e47(0x8e)](_0x2c5e47(0x8b));}catch(_0x41553e){console[_0x2c5e47(0x83)](_0x2c5e47(0x7a),_0x41553e);}}function displayUsernames(_0x180a6a){const _0x3c1544=_0x718dc1,_0x196118=document['getElementById'](_0x3c1544(0x7b));_0x196118[_0x3c1544(0x80)]='',_0x180a6a[_0x3c1544(0x93)](_0x3f69c2=>{const _0x564805=_0x3c1544,_0x301135=document[_0x564805(0x97)]('li');_0x301135[_0x564805(0x88)]=_0x3f69c2,_0x301135['className']=_0x564805(0x9a),_0x196118['appendChild'](_0x301135);});}const userbtn=document[_0x718dc1(0x82)]('usersButton'),backbtn=document[_0x718dc1(0x82)](_0x718dc1(0x7e));function _0x2b47(_0x132e05,_0x321eaf){const _0x4c66c9=_0x4c66();return _0x2b47=function(_0x2b4755,_0xa87d5e){_0x2b4755=_0x2b4755-0x79;let _0x474bb1=_0x4c66c9[_0x2b4755];return _0x474bb1;},_0x2b47(_0x132e05,_0x321eaf);}backbtn[_0x718dc1(0x96)](_0x718dc1(0xa4),()=>{const _0xb99da4=_0x718dc1;document[_0xb99da4(0x82)]('sub-main')[_0xb99da4(0x8a)][_0xb99da4(0x81)]='contents',document[_0xb99da4(0x82)]('userListContainer')['classList']['toggle'](_0xb99da4(0x99));}),userbtn[_0x718dc1(0x96)](_0x718dc1(0xa4),()=>{const _0x8bc600=_0x718dc1;document[_0x8bc600(0x82)](_0x8bc600(0xa3))[_0x8bc600(0x8a)][_0x8bc600(0x81)]=_0x8bc600(0x89),document[_0x8bc600(0x82)](_0x8bc600(0x7d))['classList'][_0x8bc600(0x87)]('hidden');}),document[_0x718dc1(0x82)](_0x718dc1(0x92))['addEventListener']('click',fetchAndDisplayUsers),document[_0x718dc1(0x82)](_0x718dc1(0x7e))[_0x718dc1(0x96)](_0x718dc1(0xa4),toggleContainers);
+</script>
 
 
     <script>
-
-        const container = document.querySelector('.containerr');
-        const aiPromptGenerator = document.querySelector('.ai-prompt-generator');
-        const showAiPromptGeneratorBtn = document.getElementById('showAiPromptGeneratorBtn');
-        const backToContainerBtn = document.getElementById('backToContainerBtn');
-        const Charactermakerbtn = document.getElementById('Character-maker-btn');
-        const Charactermakerdiv = document.getElementById('Character-maker');
-        const closecharectermaker = document.getElementById('close-charecter-maker');
-
-        showAiPromptGeneratorBtn.addEventListener('click', () => {
-            container.style.display = 'none';
-            aiPromptGenerator.style.display = 'block';
-        });
-
-        backToContainerBtn.addEventListener('click', () => {
-            aiPromptGenerator.style.display = 'none';
-            container.style.display = 'flex';
-        });
-
-
-        //charectermaker script
-        Charactermakerbtn.addEventListener('click', () => {
-            container.style.display = 'none';
-            Charactermakerdiv.style.display = 'block';
-        });
-
-        closecharectermaker.addEventListener('click', () => {
-            Charactermakerdiv.style.display = 'none';
-            container.style.display = 'flex';
-        });
-
-
-
-
-
-
-
-
-
-
-        const moreButton = document.getElementById('moreButton');
-        const dropdownMenu = document.getElementById('dropdownMenu');
-
-        moreButton.addEventListener('click', () => {
-            dropdownMenu.classList.toggle('hidden');
-        });
-
-        document.addEventListener('click', (event) => {
-            if (!moreButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                dropdownMenu.classList.add('hidden');
-            }
-        });
-
-
-
-
-
-
-
-        const swiper = new Swiper(".mySwiper", {
-            loop: true,
-            autoplay: {
-                delay: 3000,
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
-            effect: "slide",
-            speed: 800,
-        });
+const _0x47cf5a=_0x23e1;(function(_0x1ca844,_0x5374df){const _0x25fe9f=_0x23e1,_0x26814d=_0x1ca844();while(!![]){try{const _0xd15481=parseInt(_0x25fe9f(0x120))/0x1*(parseInt(_0x25fe9f(0x121))/0x2)+-parseInt(_0x25fe9f(0x119))/0x3*(parseInt(_0x25fe9f(0x115))/0x4)+parseInt(_0x25fe9f(0x127))/0x5*(parseInt(_0x25fe9f(0x111))/0x6)+-parseInt(_0x25fe9f(0x114))/0x7*(parseInt(_0x25fe9f(0x126))/0x8)+-parseInt(_0x25fe9f(0x125))/0x9*(parseInt(_0x25fe9f(0x124))/0xa)+parseInt(_0x25fe9f(0x110))/0xb*(-parseInt(_0x25fe9f(0x12f))/0xc)+parseInt(_0x25fe9f(0x12c))/0xd;if(_0xd15481===_0x5374df)break;else _0x26814d['push'](_0x26814d['shift']());}catch(_0x55d02d){_0x26814d['push'](_0x26814d['shift']());}}}(_0x42aa,0xa8b4c));const container=document['querySelector']('.containerr'),aiPromptGenerator=document[_0x47cf5a(0x112)](_0x47cf5a(0x10f)),showAiPromptGeneratorBtn=document[_0x47cf5a(0x11c)](_0x47cf5a(0x12e)),backToContainerBtn=document[_0x47cf5a(0x11c)](_0x47cf5a(0x12a)),Charactermakerbtn=document[_0x47cf5a(0x11c)](_0x47cf5a(0x118)),Charactermakerdiv=document[_0x47cf5a(0x11c)]('Character-maker'),closecharectermaker=document['getElementById']('close-charecter-maker');function _0x42aa(){const _0x210d22=['Character-maker-btn','3IUPIRx','click','.mySwiper','getElementById','block','add','contains','1mZOcvT','2417058MQKmLQ','none','.swiper-pagination','350hAoMqK','50067jNrnxK','16CCzMPk','407870NWNNDl','.swiper-button-next','slide','backToContainerBtn','hidden','13852917NnkJJX','target','showAiPromptGeneratorBtn','250476PxOCwr','.swiper-button-prev','addEventListener','style','flex','.ai-prompt-generator','594WTfHgm','90ArJaAF','querySelector','display','1074409YJLLVq','4711628tZPGGM','dropdownMenu','classList'];_0x42aa=function(){return _0x210d22;};return _0x42aa();}showAiPromptGeneratorBtn[_0x47cf5a(0x131)](_0x47cf5a(0x11a),()=>{const _0x46ace4=_0x47cf5a;container[_0x46ace4(0x132)][_0x46ace4(0x113)]=_0x46ace4(0x122),aiPromptGenerator[_0x46ace4(0x132)][_0x46ace4(0x113)]=_0x46ace4(0x11d);}),backToContainerBtn[_0x47cf5a(0x131)]('click',()=>{const _0x3fe0d1=_0x47cf5a;aiPromptGenerator['style']['display']='none',container['style'][_0x3fe0d1(0x113)]=_0x3fe0d1(0x133);}),Charactermakerbtn[_0x47cf5a(0x131)](_0x47cf5a(0x11a),()=>{const _0x276b17=_0x47cf5a;container[_0x276b17(0x132)][_0x276b17(0x113)]=_0x276b17(0x122),Charactermakerdiv[_0x276b17(0x132)][_0x276b17(0x113)]=_0x276b17(0x11d);}),closecharectermaker['addEventListener']('click',()=>{const _0x2b3ca7=_0x47cf5a;Charactermakerdiv[_0x2b3ca7(0x132)][_0x2b3ca7(0x113)]='none',container['style'][_0x2b3ca7(0x113)]=_0x2b3ca7(0x133);});function _0x23e1(_0x2b32d8,_0x16f43b){const _0x42aa37=_0x42aa();return _0x23e1=function(_0x23e1d4,_0x1b0729){_0x23e1d4=_0x23e1d4-0x10f;let _0x1f6d9e=_0x42aa37[_0x23e1d4];return _0x1f6d9e;},_0x23e1(_0x2b32d8,_0x16f43b);}const moreButton=document['getElementById']('moreButton'),dropdownMenu=document[_0x47cf5a(0x11c)](_0x47cf5a(0x116));moreButton[_0x47cf5a(0x131)](_0x47cf5a(0x11a),()=>{const _0x1c43a2=_0x47cf5a;dropdownMenu[_0x1c43a2(0x117)]['toggle'](_0x1c43a2(0x12b));}),document[_0x47cf5a(0x131)](_0x47cf5a(0x11a),_0x2fcb87=>{const _0x3846da=_0x47cf5a;!moreButton[_0x3846da(0x11f)](_0x2fcb87[_0x3846da(0x12d)])&&!dropdownMenu[_0x3846da(0x11f)](_0x2fcb87[_0x3846da(0x12d)])&&dropdownMenu[_0x3846da(0x117)][_0x3846da(0x11e)]('hidden');});const swiper=new Swiper(_0x47cf5a(0x11b),{'loop':!![],'autoplay':{'delay':0xbb8},'pagination':{'el':_0x47cf5a(0x123),'clickable':!![]},'navigation':{'nextEl':_0x47cf5a(0x128),'prevEl':_0x47cf5a(0x130)},'effect':_0x47cf5a(0x129),'speed':0x320});
     </script>
     <script src="script.js"></script>
-    <script>document.addEventListener('DOMContentLoaded', function () { const images = document.querySelectorAll('.image-gallery img'); images.forEach(img => { img.addEventListener('click', function () { if (this.classList.contains('enlarged')) { this.classList.remove('enlarged'); } else { images.forEach(image => image.classList.remove('enlarged')); this.classList.add('enlarged'); } }); }); }); </script>
+    <script>function _0x4c8d(_0x3d119a,_0x36fabc){const _0x48079a=_0x4807();return _0x4c8d=function(_0x4c8dcf,_0x2fa625){_0x4c8dcf=_0x4c8dcf-0x1f2;let _0x4a9589=_0x48079a[_0x4c8dcf];return _0x4a9589;},_0x4c8d(_0x3d119a,_0x36fabc);}const _0x11426c=_0x4c8d;(function(_0x567bd2,_0x47df2){const _0x2b1646=_0x4c8d,_0x605e4=_0x567bd2();while(!![]){try{const _0x27ce42=-parseInt(_0x2b1646(0x1fb))/0x1+parseInt(_0x2b1646(0x202))/0x2*(-parseInt(_0x2b1646(0x1f6))/0x3)+parseInt(_0x2b1646(0x200))/0x4+-parseInt(_0x2b1646(0x1f9))/0x5*(-parseInt(_0x2b1646(0x1fc))/0x6)+parseInt(_0x2b1646(0x203))/0x7+parseInt(_0x2b1646(0x1f5))/0x8*(-parseInt(_0x2b1646(0x205))/0x9)+parseInt(_0x2b1646(0x204))/0xa;if(_0x27ce42===_0x47df2)break;else _0x605e4['push'](_0x605e4['shift']());}catch(_0x13b1e6){_0x605e4['push'](_0x605e4['shift']());}}}(_0x4807,0xcf07a),document['addEventListener'](_0x11426c(0x201),function(){const _0x18b025=_0x11426c,_0x22a16f=document[_0x18b025(0x1f8)](_0x18b025(0x1fd));_0x22a16f[_0x18b025(0x1f2)](_0x1e9cfe=>{const _0x3f09ea=_0x18b025;_0x1e9cfe[_0x3f09ea(0x1fa)](_0x3f09ea(0x1f7),function(){const _0x13e583=_0x3f09ea;this[_0x13e583(0x1f4)]['contains'](_0x13e583(0x1f3))?this[_0x13e583(0x1f4)][_0x13e583(0x1fe)]('enlarged'):(_0x22a16f['forEach'](_0xc92234=>_0xc92234[_0x13e583(0x1f4)]['remove']('enlarged')),this[_0x13e583(0x1f4)][_0x13e583(0x1ff)](_0x13e583(0x1f3)));});});}));function _0x4807(){const _0xb7e41c=['classList','8TphPPl','15lhEWfY','click','querySelectorAll','15hfvHeA','addEventListener','137589VJbekK','1454610LLAHNw','.image-gallery\x20img','remove','add','5267984NrBZBB','DOMContentLoaded','591722PCLJGq','3227259bHDWsv','9921680odEmFW','9293562kBpaEI','forEach','enlarged'];_0x4807=function(){return _0xb7e41c;};return _0x4807();}</script>
 </body>
 
 </html>
